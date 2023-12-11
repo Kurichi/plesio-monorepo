@@ -12,7 +12,9 @@ steps:
 
   # Push
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/$_SERVICE_NAME:$SHORT_SHA']
+    args: 
+      - push
+      - asia-northeast1-docker.pkg.dev/$PROJECT_ID/$_SERVICE_NAME:$SHORT_SHA
     id: 'push'
     waitFor: ['build']
 
