@@ -8,6 +8,10 @@ spec:
   selector:
     matchLabels:
       app: bff
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
   template:
     metadata:
       labels:
