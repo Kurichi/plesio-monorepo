@@ -21,7 +21,7 @@ steps:
     waitFor: ['build']
 
 images:
-  - 'gcr.io/$PROJECT_ID/$_SERVICE_NAME:$SHORT_SHA'
+  - asia-northeast1-docker.pkg.dev/$PROJECT_ID/$_SERVICE_NAME:$SHORT_SHA
 
 timeout: '1200s'
 options:
