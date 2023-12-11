@@ -20,5 +20,5 @@ spec:
         - containerPort: 8080
         readinessProbe:
           httpGet:
-            path: /new-health-path
+            path: /health
             port: 80
