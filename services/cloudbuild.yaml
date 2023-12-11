@@ -1,6 +1,8 @@
 steps:
   # Build
   - name: 'gcr.io/cloud-builders/docker'
+    env: 
+      - DOCKER_BUILDKIT=1
     args: 
       - build
       - -f
