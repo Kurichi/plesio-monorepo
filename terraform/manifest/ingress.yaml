@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: keekten-ingress
+  annotations:
+    # 外部ロードバランサの作成
+    kubernetes.io/ingress.class: "gce"
+    # クライアントとHTTP(S)ロードバランサ間のすべての通信をHTTPSに強制
+    kubernetes.io/ingress.allow-http: "false"
+    # 事前に用意していた静的外部IPアドレスを設定する
+    kubernetes.io/ingress.global-static-ip-name: "loadbalancer-external-ip-address"
+    # Googleマネージド証明書をIngressに適用する
+    # networking.gke.io/managed-certificates: "keekten"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: keekten-service
+            port:
+              number: 80
