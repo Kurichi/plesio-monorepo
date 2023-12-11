@@ -1,4 +1,4 @@
-module github.com/Kurichi/plesio-monorepo/services/tree
+module github.com/Kurichi/plesio-monorepo/services/bff
 
 go 1.21.5
 
