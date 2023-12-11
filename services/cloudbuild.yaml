@@ -6,7 +6,7 @@ steps:
       - -f
       - ./services/$_SERVICE_NAME/Dockerfile
       - --tag
-      - asia-northeast1.gcr.io/$PROJECT_ID/$_SERVICE_NAME:$SHORT_SHA
+      - asia-northeast1-docker.pkg.dev/$PROJECT_ID/$_SERVICE_NAME:$SHORT_SHA
       - ./services/$_SERVICE_NAME
     id: 'build'
 
