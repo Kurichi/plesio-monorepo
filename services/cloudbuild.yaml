@@ -20,6 +20,16 @@ steps:
     id: 'push'
     waitFor: ['build']
 
+  # Deploy
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args:
+      - set
+      - image
+      - deployment/$_SERVICE_NAME
+      - $_SERVICE_NAME=asia-northeast1-docker.pkg.dev/$PROJECT_ID/keekten-docker-prod/$_SERVICE_NAME:$SHORT_SHA
+    id: 'deploy'
+    waitFor: ['push']
+
 images:
   - asia-northeast1-docker.pkg.dev/$PROJECT_ID/keekten-docker-prod/$_SERVICE_NAME:$SHORT_SHA
 

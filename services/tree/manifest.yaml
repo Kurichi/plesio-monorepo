@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tree
+  namespace: default
+spec:
+  containers:
+  - name: tree
+    image: asia-northeast1-docker.pkg.dev/keekten-docker-prod/tree
+    imagePullPolicy: Always
+    ports:
+    - containerPort: 8080
+      protocol: TCP
