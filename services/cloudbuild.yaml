@@ -22,6 +22,9 @@ steps:
 
   # Deploy
   - name: 'gcr.io/cloud-builders/kubectl'
+    env:
+      - CLOUDSDK_COMPUTE_ZONE=asia-northeast1-a
+      - CLOUDSDK_CONTAINER_CLUSTER=keekten-cluster-prod
     args:
       - set
       - image
