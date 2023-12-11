@@ -18,23 +18,10 @@ resource "google_container_cluster" "gke" {
   network    = google_compute_network.vpc.self_link
   subnetwork = google_compute_subnetwork.private.self_link
 
-  private_cluster_config {
-    enable_private_nodes    = true
-    enable_private_endpoint = true
-    master_ipv4_cidr_block  = var.gke.master_cidr
-
-    master_global_access_config {
-      enabled = false
-    }
-  }
-
-  master_authorized_networks_config {
-  }
-
   maintenance_policy {
     recurring_window {
-      start_time = "2006-01-02T02:00:00+09:00"
-      end_time   = "2006-01-02T06:00:00+09:00"
+      start_time = "2006-01-01T17:00:00Z"
+      end_time   = "2006-01-01T21:00:00Z"
       recurrence = "FREQ=WEEKLY;BYDAY=FR,SA,SU"
     }
   }

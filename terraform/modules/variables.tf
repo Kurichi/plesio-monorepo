@@ -4,6 +4,7 @@ variable "common" {
     prefix  = string
     region  = string
     env     = string
+    domain  = string
   })
 }
 
@@ -20,4 +21,12 @@ variable "gke" {
     service_cidr = string
     master_cidr  = string
   })
+}
+
+variable "bastion" {
+  type = object({
+    machine_type    = string
+    ssh_sourcerange = string
+  })
+
 }
