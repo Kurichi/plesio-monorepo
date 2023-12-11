@@ -18,3 +18,7 @@ spec:
         image: asia-northeast1-docker.pkg.dev/keekten-docker-prod/bff
         ports:
         - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /new-health-path
+            port: 80
