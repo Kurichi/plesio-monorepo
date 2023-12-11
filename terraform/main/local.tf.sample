@@ -1,0 +1,19 @@
+locals {
+  common = {
+    project = "projct-id"
+    prefix  = "keekten"
+    region  = "asia-northeast1"
+    env     = "dev"
+  }
+  bucket = "tf-state-plesio"
+
+  vpc = {
+    private_subnet_cidr = "192.168.100.0/24"
+  }
+
+  gke = {
+    cluster_cidr = "172.16.0.0/16"
+    service_cidr = "172.31.0.0/16"
+    master_cidr  = "192.168.200.0/28"
+  }
+}
