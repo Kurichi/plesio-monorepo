@@ -4,10 +4,17 @@ metadata:
   name: bff
   namespace: default
 spec:
-  replicas: 2
-  containers:
-  - name: bff
-    image: asia-northeast1-docker.pkg.dev/keekten-docker-prod/bff
-    imagePullPolicy: Always
-    ports:
-    - containerPort: 8080
+  replicas: 3
+  selector:
+    matchLabels:
+      app: bff
+  template:
+    metadata:
+      labels:
+        app: bff
+    spec:
+      containers:
+      - name: bff
+        image: asia-northeast1-docker.pkg.dev/keekten-docker-prod/bff
+        ports:
+        - containerPort: 8080
