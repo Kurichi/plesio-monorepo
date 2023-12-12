@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: user
+  template:
+    metadata:
+      labels:
+        app: user
+    spec:
+      containers:
+      - name: user
+        image: asia-northeast1-docker.pkg.dev/keekten-docker-prod/user
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 50051
+        env:
+        - name: PORT
+          value: "50051"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+spec:
+  selector:
+    app: user
+  ports:
+    - port: 50051
+      targetPort: 50051
+      protocol: TCP

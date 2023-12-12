@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mission
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mission
+  template:
+    metadata:
+      labels:
+        app: mission
+    spec:
+      containers:
+      - name: mission
+        image: asia-northeast1-docker.pkg.dev/keekten-docker-prod/mission
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 50051
+        env:
+        - name: PORT
+          value: "50051"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mission-service
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+spec:
+  selector:
+    app: mission
+  ports:
+    - port: 50051
+      targetPort: 50051
+      protocol: TCP
