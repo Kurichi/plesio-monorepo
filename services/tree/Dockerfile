@@ -34,5 +34,4 @@ RUN adduser \
 USER appuser
 
 COPY --from=build /bin/server /bin/
-EXPOSE 8080
 ENTRYPOINT [ "/bin/server" ]
