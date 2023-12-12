@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tree
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: tree
+  template:
+    metadata:
+      labels:
+        app: tree
+    spec:
+      containers:
+      - name: tree
+        image: asia-northeast1-docker.pkg.dev/keekten-docker-prod/tree
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 50051
+        env:
+        - name: PORT
+          value: "50051"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tree-service
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+spec:
+  selector:
+    app: tree
+  ports:
+    - port: 50051
+      targetPort: 50051
+      protocol: TCP
