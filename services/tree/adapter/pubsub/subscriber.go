@@ -20,8 +20,6 @@ func NewSubscriber(ctx context.Context) (*Subscriber, error) {
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
-	topic := client.Topic(cfg.TopicName)
-	log.Println(topic)
 
 	return &Subscriber{
 		client:    client,
@@ -30,7 +28,6 @@ func NewSubscriber(ctx context.Context) (*Subscriber, error) {
 }
 
 func (s *Subscriber) Subscribe(ctx context.Context) error {
-	log.Println(s.topicName)
 	sub := s.client.Subscription(s.topicName)
 	// sub, err := s.client.CreateSubscription(ctx, s.topic.ID(), pubsub.SubscriptionConfig{
 	// 	Topic: s.topic,

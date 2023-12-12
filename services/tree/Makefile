@@ -1,4 +1,4 @@
-SERVICE = bff
+SERVICE = tree
 
 .PHONY: run log
 run:

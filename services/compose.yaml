@@ -73,6 +73,7 @@ services:
       - .env
     environment:
       - PORT=${TREE_PORT}
+      - GOOGLE_APPLICATION_CREDENTIALS=/src/service-account.json
 
   # ======================== #
   # ===== User Service ===== #
