@@ -1,0 +1,18 @@
+mobile:
+- mobile/**/*
+infrastructure:
+- infra/**/*
+server:
+- services/**/*
+
+# microservice labels
+bff:
+- services/bff/**/*
+item:
+- services/item/**/*
+mission:
+- services/mission/**/*
+tree:
+- services/tree/**/*
+user:
+- services/user/**/*

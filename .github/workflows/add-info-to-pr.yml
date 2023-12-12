@@ -1,0 +1,21 @@
+# PRに対して自動でラベルをつけるActions
+
+name: 'PR add info'
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/labeler@v2
+        with:
+          repo-token: '${{ secrets.GITHUB_TOKEN }}'
+          configuration-path: .github/labeler.yml
+  assign:
+    name: Assign author to PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Assign author to PR
+        uses: technote-space/assign-author@v1
