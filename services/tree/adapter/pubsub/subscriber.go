@@ -27,15 +27,16 @@ func NewSubscriber(ctx context.Context) (*Subscriber, error) {
 }
 
 func (s *Subscriber) Subscribe(ctx context.Context) error {
-	sub, err := s.client.CreateSubscription(ctx, s.topic.ID(), pubsub.SubscriptionConfig{
-		Topic: s.topic,
-	})
-	if err != nil {
-		return errors.WithStack(err)
-	}
+	sub := s.client.Subscription(s.topic.ID())
+	// sub, err := s.client.CreateSubscription(ctx, s.topic.ID(), pubsub.SubscriptionConfig{
+	// 	Topic: s.topic,
+	// })
+	// if err != nil {
+	// 	return errors.WithStack(err)
+	// }
 
 	log.Println("start subscribe")
-	err = sub.Receive(ctx, func(ctx context.Context, m *pubsub.Message) {
+	err := sub.Receive(ctx, func(ctx context.Context, m *pubsub.Message) {
 		log.Println(string(m.Data))
 	})
 	if err != nil {
