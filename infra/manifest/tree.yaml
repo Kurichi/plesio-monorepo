@@ -25,7 +25,7 @@ spec:
         - name: PROJECT_ID
           value: "plesio-407208"
         - name: TOPIC_NAME
-          value: "act_to_tree-topic"
+          value: "act_to_tree-subscription"
 ---
 apiVersion: v1
 kind: Service

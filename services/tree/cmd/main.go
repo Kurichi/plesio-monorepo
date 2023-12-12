@@ -25,6 +25,7 @@ func main() {
 		panic(err)
 	}
 	if err = sub.Subscribe(context.Background()); err != nil {
+		log.Printf("failed to subscribe: %+v", err)
 		panic(err)
 	}
 
