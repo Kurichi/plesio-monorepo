@@ -1,0 +1,18 @@
+# syntax=docker/dockerfile:1
+
+ARG GO_VERSION=1.21.5
+FROM golang:${GO_VERSION} AS develop
+WORKDIR /src
+
+RUN go install github.com/cosmtrek/air@v1.29.0
+
+COPY go.mod go.sum ./
+
+RUN --mount=type=cache,target=/go/pkg/mod/ \
+  --mount=type=bind,source=go.sum,target=go.sum \
+  --mount=type=bind,source=go.mod,target=go.mod \
+  go mod download -x
+
+COPY . .
+
+ENTRYPOINT [ "air", "-c", ".air.toml" ]

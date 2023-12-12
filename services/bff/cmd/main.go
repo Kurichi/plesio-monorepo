@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	"github.com/Kurichi/plesio-monorepo/services/bff/pkg/config"
-	hellopb "github.com/Kurichi/plesio-monorepo/services/bff/pkg/grpc"
+	hellopb "github.com/Kurichi/plesio-monorepo/services/tree/pkg/grpc"
 	"github.com/labstack/echo/v4"
 
 	"google.golang.org/grpc"

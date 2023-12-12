@@ -6,8 +6,8 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/Kurichi/plesio-monorepo/services/tree/pkg/config"
-	"github.com/Kurichi/plesio-monorepo/services/tree/register"
+	"github.com/Kurichi/plesio-monorepo/services/item/pkg/config"
+	"github.com/Kurichi/plesio-monorepo/services/item/register"
 )
 
 func main() {

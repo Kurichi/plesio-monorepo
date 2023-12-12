@@ -2,37 +2,91 @@ version: '3.8'
 
 services:
   bff:
-    build: ./bff
+    build:
+      context: ./bff
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./bff:/src
     ports:
-      - ${BFF_PORT}:8080
+      - ${EXTERNAL_PORT}:${BFF_PORT}
     env_file:
       - .env
+    environment:
+      - PORT=${BFF_PORT}
+      - ITEM_SERVICE_ADDR=${ITEM_HOSTNAME}:${ITEM_PORT}
+      - MISSION_SERVICE_ADDR=${MISSION_HOSTNAME}:${MISSION_PORT}
+      - TREE_SERVICE_ADDR=${TREE_HOSTNAME}:${TREE_PORT}
+      - USER_SERVICE_ADDR=${USER_HOSTNAME}:${USER_PORT}
     depends_on:
-      # - item
-      # - mission
+      - item
+      - mission
       - tree
-      # - user
-  # item:
-  #   build: ./item
-  #   expose:
-  #     - ${ITEM_PORT}
-  #   env_file:
-  #     - .env
-  # mission:
-  #   build: ./mission
-  #   expose:
-  #     - ${MISSION_PORT}
-  #   env_file:
-  #     - .env
+      - user
+
+  # ======================== #
+  # ===== Item Service ===== #
+  # ======================== #
+  item:
+    hostname: ${ITEM_HOSTNAME}
+    build:
+      context: ./item
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./item:/src
+    expose:
+      - ${ITEM_PORT}
+    env_file:
+      - .env
+    environment:
+      - PORT=${ITEM_PORT}
+
+  # =========================== #
+  # ===== Mission Service ===== #
+  # =========================== #
+  mission:
+    hostname: ${MISSION_HOSTNAME}
+    build:
+      context: ./mission
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./mission:/src
+    expose:
+      - ${MISSION_PORT}
+    env_file:
+      - .env
+    environment:
+      - PORT=${MISSION_PORT}
+
+  # ======================== #
+  # ===== Tree Service ===== #
+  # ======================== #
   tree:
-    build: ./tree
+    hostname: ${TREE_HOSTNAME}
+    build:
+      context: ./tree
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./tree:/src
     expose:
       - ${TREE_PORT}
     env_file:
       - .env
-  # user:
-  #   build: ./user
-  #   expose:
-  #     - ${USER_PORT}
-  #   env_file:
-  #     - .env
+    environment:
+      - PORT=${TREE_PORT}
+
+  # ======================== #
+  # ===== User Service ===== #
+  # ======================== #
+  user:
+    hostname: ${USER_HOSTNAME}
+    build:
+      context: ./user
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./user:/src
+    expose:
+      - ${USER_PORT}
+    env_file:
+      - .env
+    environment:
+      - PORT=${USER_PORT}
