@@ -29,7 +29,7 @@ func main() {
 		grpc.WithBlock(),
 	)
 	if err != nil {
-		log.Fatal("Connection failed.")
+		log.Fatal("Connection failed...")
 		return
 	}
 	defer conn.Close()
