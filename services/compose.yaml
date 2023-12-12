@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  bff:
+    build: ./bff
+    ports:
+      - ${BFF_PORT}:8080
+    env_file:
+      - .env
+    depends_on:
+      # - item
+      # - mission
+      - tree
+      # - user
+  # item:
+  #   build: ./item
+  #   expose:
+  #     - ${ITEM_PORT}
+  #   env_file:
+  #     - .env
+  # mission:
+  #   build: ./mission
+  #   expose:
+  #     - ${MISSION_PORT}
+  #   env_file:
+  #     - .env
+  tree:
+    build: ./tree
+    expose:
+      - ${TREE_PORT}
+    env_file:
+      - .env
+  # user:
+  #   build: ./user
+  #   expose:
+  #     - ${USER_PORT}
+  #   env_file:
+  #     - .env
