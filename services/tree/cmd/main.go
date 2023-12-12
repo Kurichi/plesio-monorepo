@@ -1,11 +1,13 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net"
 	"os"
 	"os/signal"
 
+	subscriber "github.com/Kurichi/plesio-monorepo/services/tree/adapter/pubsub"
 	"github.com/Kurichi/plesio-monorepo/services/tree/pkg/config"
 	"github.com/Kurichi/plesio-monorepo/services/tree/register"
 )
@@ -17,8 +19,16 @@ func main() {
 		panic(err)
 	}
 
-	s := register.New()
+	sub, err := subscriber.NewSubscriber(context.Background())
+	if err != nil {
+		log.Println(err)
+	}
+	err = sub.Subscribe(context.Background())
+	if err != nil {
+		log.Println(err)
+	}
 
+	s := register.New()
 	go func() {
 		log.Printf("start gRPC server! port: %v", cfg.Port)
 		s.Serve(listener)
