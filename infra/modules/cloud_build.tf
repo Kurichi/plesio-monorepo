@@ -24,7 +24,7 @@ resource "google_cloudbuild_trigger" "main" {
     "*.md",
   ]
 
-  filename = "services/cloudbuild.yaml"
+  filename = "infra/manifest/cloudbuild.yaml"
   substitutions = {
     "_SERVICE_NAME" = each.value
   }
