@@ -10,8 +10,8 @@ import (
 )
 
 type Subscriber struct {
-	client *pubsub.Client
-	topic  *pubsub.Topic
+	client    *pubsub.Client
+	topicName string
 }
 
 func NewSubscriber(ctx context.Context) (*Subscriber, error) {
@@ -21,13 +21,14 @@ func NewSubscriber(ctx context.Context) (*Subscriber, error) {
 		return nil, errors.WithStack(err)
 	}
 	return &Subscriber{
-		client: client,
-		topic:  client.Topic(cfg.TopicName),
+		client:    client,
+		topicName: cfg.TopicName,
 	}, nil
 }
 
 func (s *Subscriber) Subscribe(ctx context.Context) error {
-	sub := s.client.Subscription(s.topic.ID())
+	log.Println(s.topicName)
+	sub := s.client.Subscription(s.topicName)
 	// sub, err := s.client.CreateSubscription(ctx, s.topic.ID(), pubsub.SubscriptionConfig{
 	// 	Topic: s.topic,
 	// })
@@ -35,7 +36,6 @@ func (s *Subscriber) Subscribe(ctx context.Context) error {
 	// 	return errors.WithStack(err)
 	// }
 
-	log.Println("start subscribe")
 	err := sub.Receive(ctx, func(ctx context.Context, m *pubsub.Message) {
 		log.Println(string(m.Data))
 	})
