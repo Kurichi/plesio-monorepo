@@ -2,6 +2,7 @@ package subscriber
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"cloud.google.com/go/pubsub"
@@ -34,6 +35,7 @@ func (s *Subscriber) Subscribe(ctx context.Context) error {
 		return errors.WithStack(err)
 	}
 
+	fmt.Println("start subscribe")
 	err = sub.Receive(ctx, func(ctx context.Context, m *pubsub.Message) {
 		log.Println(string(m.Data))
 	})
