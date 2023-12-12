@@ -11,3 +11,15 @@ func New() *Config {
 		Port: os.Getenv("PORT"),
 	}
 }
+
+type PubSubConfig struct {
+	ProjectID string
+	TopicName string
+}
+
+func NewPubSubConfig() *PubSubConfig {
+	return &PubSubConfig{
+		ProjectID: os.Getenv("PROJECT_ID"),
+		TopicName: os.Getenv("TOPIC_NAME"),
+	}
+}
