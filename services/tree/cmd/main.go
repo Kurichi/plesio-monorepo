@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"log"
 	"net"
 	"os"
 	"os/signal"
@@ -24,16 +24,18 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	sub.Subscribe(context.Background())
+	if err = sub.Subscribe(context.Background()); err != nil {
+		panic(err)
+	}
 
 	go func() {
-		fmt.Printf("start gRPC server! port: %v", cfg.Port)
+		log.Printf("start gRPC server! port: %v", cfg.Port)
 		s.Serve(listener)
 	}()
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt)
 	<-quit
-	fmt.Println("stopping gRPC server...")
+	log.Println("stopping gRPC server...")
 	s.GracefulStop()
 }
