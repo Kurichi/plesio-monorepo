@@ -20,6 +20,9 @@ func NewSubscriber(ctx context.Context) (*Subscriber, error) {
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
+	topic := client.Topic(cfg.TopicName)
+	log.Println(topic)
+
 	return &Subscriber{
 		client:    client,
 		topicName: cfg.TopicName,
