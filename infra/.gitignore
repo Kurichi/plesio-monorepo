@@ -3,3 +3,4 @@
 
 local.tf
 kubeconfig-*
+service-account.json

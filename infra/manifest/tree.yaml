@@ -13,6 +13,10 @@ spec:
       labels:
         app: tree
     spec:
+      volumes:
+      - name: google-cloud-key
+        secret:
+          secretName: gsa-key
       containers:
       - name: tree
         image: asia-northeast1-docker.pkg.dev/keekten-docker-prod/tree
@@ -26,6 +30,8 @@ spec:
           value: "plesio-407208"
         - name: TOPIC_NAME
           value: "act_to_tree-subscription"
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/key.json
 ---
 apiVersion: v1
 kind: Service
