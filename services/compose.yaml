@@ -33,6 +33,7 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - ./item:/src
+      - ./service-account.json:/src/service-account.json
     expose:
       - ${ITEM_PORT}
     env_file:
@@ -54,6 +55,7 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - ./mission:/src
+      - ./service-account.json:/src/service-account.json
     expose:
       - ${MISSION_PORT}
     env_file:
@@ -71,6 +73,7 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - ./tree:/src
+      - ./service-account.json:/src/service-account.json
     expose:
       - ${TREE_PORT}
     env_file:
@@ -89,6 +92,7 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - ./user:/src
+      - ./service-account.json:/src/service-account.json
     expose:
       - ${USER_PORT}
     env_file:
