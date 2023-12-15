@@ -7,12 +7,22 @@
 package register
 
 import (
+	"github.com/Kurichi/plesio-monorepo/services/item/adapter/grpc"
+	"github.com/Kurichi/plesio-monorepo/services/item/application"
+	"github.com/Kurichi/plesio-monorepo/services/item/infra"
+	"github.com/Kurichi/plesio-monorepo/services/item/pkg/config"
+	"github.com/Kurichi/plesio-monorepo/services/item/pkg/database"
 	"google.golang.org/grpc"
 )
 
 // Injectors from wire.go:
 
 func New() *grpc.Server {
-	server := Register()
+	dbConfig := config.NewDBConfig()
+	db := database.New(dbConfig)
+	itemRepository := infra.NewItemRepository(db)
+	itemUsecase := application.NewItemUsecase(itemRepository)
+	itemServiceServer := api.NewItemController(itemUsecase)
+	server := Register(itemServiceServer)
 	return server
 }

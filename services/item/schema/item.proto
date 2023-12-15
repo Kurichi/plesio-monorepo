@@ -1,0 +1,20 @@
+syntax = "proto3";
+option go_package = "pkg/grpc";
+package item;
+
+service ItemService{
+  rpc GetItemByID(GetItemRequest) returns (GetItemResponse);
+}
+
+message GetItemRequest {
+    string id = 1;
+}
+
+message GetItemResponse {
+    Item item = 1;
+}
+
+message Item {
+    string id = 1;
+    string name = 2;
+}
