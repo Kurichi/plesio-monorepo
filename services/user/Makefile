@@ -13,3 +13,9 @@ lint:
 	golangci-lint run ./...
 lint-fix:
 	golangci-lint run --fix ./...
+
+.PHONY: proto
+proto:
+	protoc --go_out=. --go_opt=paths=import \
+		--go-grpc_out=. --go-grpc_opt=paths=import \
+		./schema/*.proto
