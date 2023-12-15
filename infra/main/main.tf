@@ -4,6 +4,7 @@ module "main" {
   vpc     = local.vpc
   gke     = local.gke
   bastion = local.bastion
+  db      = local.db
 }
 
 output "command_to_connect_cluster" {

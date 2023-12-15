@@ -1,11 +1,12 @@
 locals {
   common = {
-    project = "projct-id"
-    prefix  = "keekten"
+    project = "project-id"
+    prefix  = "prefix"
     region  = "asia-northeast1"
     env     = "dev"
+    domain  = "example.com"
   }
-  bucket = "tf-state-plesio"
+  bucket = "tf-state-bucket"
 
   vpc = {
     private_subnet_cidr = "192.168.100.0/24"
@@ -15,5 +16,15 @@ locals {
     cluster_cidr = "172.16.0.0/16"
     service_cidr = "172.31.0.0/16"
     master_cidr  = "192.168.200.0/28"
+  }
+
+  bastion = {
+    machine_type    = "e2-small"
+    ssh_sourcerange = "35.235.240.0/20" # IAP の IP 範囲
+  }
+
+  db = {
+    tier     = "db-f1-micro"
+    password = "password"
   }
 }
