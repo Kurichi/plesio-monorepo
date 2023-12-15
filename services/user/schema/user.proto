@@ -1,0 +1,49 @@
+syntax = "proto3";
+option go_package = "pkg/grpc";
+package user;
+
+service UserService {
+}
+
+message User {
+  string id = 1;
+  string name = 2;
+  string avatar = 3;
+  string github = 4;
+}
+
+message SignUpRequest {
+    string id = 1;
+}
+message SignUpResponse {
+    User user = 1;
+}
+
+message SignInRequest {
+    string id = 1;
+}
+message SignInResponse {
+    User user = 1;
+}
+
+message UpdateUserRequest {
+  string name = 1;
+  string avatar = 2;
+}
+message UpdateUserResponse {
+    User user = 1;
+}
+
+message GetUserRequest {
+    string id = 1;
+}
+message GetUserResponse {
+    User user = 1;
+}
+
+message GetUsersRequest {
+    repeated string ids = 1;
+}
+message GetUsersResponse {
+    repeated User users = 1;
+}
