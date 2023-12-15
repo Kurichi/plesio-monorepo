@@ -34,6 +34,9 @@ spec:
           value: "act_to_tree-subscription"
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /var/secrets/google/key.json
+        envFrom:
+        - secretRef:
+            name: tree-env
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler

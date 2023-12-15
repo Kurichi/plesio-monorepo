@@ -12,15 +12,31 @@ spec:
       labels:
         app: mission
     spec:
+      volumes:
+      - name: google-cloud-key
+        secret:
+          secretName: gsa-key
       containers:
       - name: mission
         image: asia-northeast1-docker.pkg.dev/keekten-docker-prod/mission:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 50051
+        volumeMounts:
+        - name: google-cloud-key
+          mountPath: /var/secrets/google
         env:
         - name: PORT
           value: "50051"
+        - name: PROJECT_ID
+          value: "plesio-407208"
+        - name: TOPIC_NAME
+          value: "act_to_tree-subscription"
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/key.json
+        envFrom:
+        - secretRef:
+            name: mission-env
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
