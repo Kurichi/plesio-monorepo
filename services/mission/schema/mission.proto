@@ -1,0 +1,22 @@
+syntax = "proto3";
+option go_package = "pkg/grpc";
+package tree;
+
+service TreeService {
+    rpc GetTree(GetTreeRequest) returns (GetTreeResponse) {}
+}
+
+message GetTreeRequest {
+    string id = 1;
+}
+
+message GetTreeResponse {
+    Tree tree = 1;
+}
+
+message Tree {
+    string id = 1;
+    string name = 2;
+    string description = 3;
+    repeated Tree children = 4;
+}
