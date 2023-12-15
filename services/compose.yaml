@@ -38,7 +38,6 @@ services:
       - ${ITEM_PORT}
     env_file:
       - .env
-      - ./item/.env
     environment:
       - PORT=${ITEM_PORT}
     depends_on:
@@ -62,6 +61,9 @@ services:
       - .env
     environment:
       - PORT=${MISSION_PORT}
+    depends_on:
+      db:
+        condition: service_healthy
 
   # ======================== #
   # ===== Tree Service ===== #
@@ -81,6 +83,9 @@ services:
     environment:
       - PORT=${TREE_PORT}
       - GOOGLE_APPLICATION_CREDENTIALS=/src/service-account.json
+    depends_on:
+      db:
+        condition: service_healthy
 
   # ======================== #
   # ===== User Service ===== #
@@ -99,19 +104,26 @@ services:
       - .env
     environment:
       - PORT=${USER_PORT}
+    depends_on:
+      db:
+        condition: service_healthy
 
   # ======================== #
   # ====== PostgreSQL ====== #
   # ======================== #
   db:
     image: postgres:15.4-alpine
-    hostname: db
+    hostname: ${DB_HOST}
     expose:
-      - 5432
+      - ${DB_PORT}
     env_file:
-      - postgres.env
+      - .env
     volumes:
       - postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB']
       interval: 5s
