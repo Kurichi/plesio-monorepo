@@ -30,7 +30,7 @@ func main() {
 
 	s := register.New()
 	go func() {
-		log.Printf("start gRPC server!! port: %v", cfg.Port)
+		log.Printf("start gRPC server!!! port: %v", cfg.Port)
 		s.Serve(listener)
 	}()
 
