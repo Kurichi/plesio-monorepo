@@ -1,6 +1,7 @@
 vendor/
 tmp/
 
+*.env
 go.work
 go.work.sum
 service-account.json
