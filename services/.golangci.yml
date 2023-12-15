@@ -1,0 +1,51 @@
+run:
+  timeout: 5m
+  skip-dirs:
+    - mocks
+    - docs
+
+issues:
+  exclude-use-default: false
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - gocyclo
+
+linters:
+  enable:
+    - gocyclo
+    - staticcheck
+    - govet
+    - misspell
+  disable:
+    - maligned
+    - exhaustive
+    - noctx
+    - asciicheck
+    - sqlclosecheck
+    - rowserrcheck
+    - gosec
+    - scopelint
+    - revive
+  presets:
+    - bugs
+    - unused
+    - format
+  fast: false
+
+linters-settings:
+  misspell:
+    locale: US
+  govet:
+    enable-all: true
+    check-shadowing: false
+    disable:
+      - fieldalignment
+      - shadow
+  staticcheck:
+    checks: ['all', '-S1*', '-ST1*', '-SA5011', '-SA1019', '-SA2002']
+
+  gocyclo:
+    min-complexity: 15
+  errcheck:
+    ignore: fmt:.*,io/ioutil:^Read,^Close|^Write|^Shutdown
