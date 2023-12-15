@@ -30,3 +30,13 @@ variable "bastion" {
   })
 
 }
+
+variable "db" {
+  type = object({
+    tier = string
+    users = map(object({
+      name     = string
+      password = string
+    }))
+  })
+}

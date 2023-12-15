@@ -20,8 +20,8 @@ resource "google_container_cluster" "gke" {
 
   maintenance_policy {
     recurring_window {
-      start_time = "2006-01-01T17:00:00Z"
-      end_time   = "2006-01-01T21:00:00Z"
+      start_time = "2006-01-01T17:00:00Z" // 2:00 AM JST
+      end_time   = "2006-01-01T21:00:00Z" // 6:00 AM JST
       recurrence = "FREQ=WEEKLY;BYDAY=FR,SA,SU"
     }
   }

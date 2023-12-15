@@ -4,7 +4,6 @@ metadata:
   name: item
   namespace: default
 spec:
-  replicas: 3
   selector:
     matchLabels:
       app: item
@@ -15,13 +14,35 @@ spec:
     spec:
       containers:
       - name: item
-        image: asia-northeast1-docker.pkg.dev/keekten-docker-prod/item
+        image: asia-northeast1-docker.pkg.dev/keekten-docker-prod/item:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 50051
         env:
         - name: PORT
           value: "50051"
+        envFrom:
+        - secretRef:
+            name: item-env
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: item-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: item
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
 ---
 apiVersion: v1
 kind: Service

@@ -4,7 +4,6 @@ metadata:
   name: tree
   namespace: default
 spec:
-  replicas: 3
   selector:
     matchLabels:
       app: tree
@@ -19,7 +18,7 @@ spec:
           secretName: gsa-key
       containers:
       - name: tree
-        image: asia-northeast1-docker.pkg.dev/keekten-docker-prod/tree
+        image: asia-northeast1-docker.pkg.dev/keekten-docker-prod/tree:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 50051
@@ -35,6 +34,25 @@ spec:
           value: "act_to_tree-subscription"
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /var/secrets/google/key.json
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: tree-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: tree
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
 ---
 apiVersion: v1
 kind: Service
