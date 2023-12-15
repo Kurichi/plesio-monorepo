@@ -61,14 +61,18 @@ lint:
 		echo "===================="; \
 		echo "Running lint for $$service"; \
 		echo "===================="; \
-		golangci-lint run ./$$service/...; \
+		cd $$service; \
+		golangci-lint run ./...; \
+		cd ..; \
 	done
 lint-fix:
 	@for service in $(SERVICES); do \
 		echo "===================="; \
 		echo "Running lint for $$service"; \
 		echo "===================="; \
-		golangci-lint run --fix ./$$service/...; \
+		cd $$service; \
+		golangci-lint run --fix ./...; \
+		cd ..; \
 	done
 
 # Wire
