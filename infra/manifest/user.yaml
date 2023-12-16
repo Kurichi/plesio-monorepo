@@ -16,6 +16,9 @@ spec:
       - name: google-cloud-key
         secret:
           secretName: gsa-key
+      - name: firebase-key
+        secret:
+          secretName: fb-key
       containers:
       - name: user
         image: asia-northeast1-docker.pkg.dev/keekten-docker-prod/user:latest
@@ -24,6 +27,8 @@ spec:
         - containerPort: 50051
         volumeMounts:
         - name: google-cloud-key
+          mountPath: /var/secrets/google
+        - name: firebase-key
           mountPath: /var/secrets/google
         env:
         - name: PORT
@@ -34,6 +39,8 @@ spec:
           value: "act_to_tree-subscription"
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /var/secrets/google/key.json
+        - name: FIREBASE_AUTH_CREDENTIALS
+          value: /var/secrets/google/fb-key.json
         envFrom:
         - secretRef:
             name: user-env

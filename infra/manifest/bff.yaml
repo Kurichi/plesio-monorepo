@@ -12,16 +12,25 @@ spec:
       labels:
         app: bff
     spec:
+      volumes:
+      - name: firebase-key
+        secret:
+          secretName: fb-key
       containers:
       - name: bff
         image: asia-northeast1-docker.pkg.dev/keekten-docker-prod/bff:latest
         ports:
         - containerPort: 8080
+        volumeMounts:
+        - name: firebase-key
+          mountPath: /var/secrets/google
         env:
         - name: PORT
           value: "8080"
         - name: TREE_SERVICE_ADDR
           value: "tree-service:50051" #tree.yamlを参照
+        - name: FIREBASE_AUTH_CREDENTIALS
+          value: /var/secrets/google/fb-key.json
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
