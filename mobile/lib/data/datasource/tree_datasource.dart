@@ -16,4 +16,16 @@ class TreeDataSource {
       throw Exception('Failed to load tree');
     }
   }
+
+  Future<void> growTree(String treeId, int growthAmount) async {
+    final response = await http.put(
+      Uri.parse('$baseUrl/trees/$treeId/grow'),
+      body: jsonEncode(<String, int>{'growthAmount': growthAmount}),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to grow tree');
+    }
+  }
 }
