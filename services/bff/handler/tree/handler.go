@@ -3,16 +3,16 @@ package tree
 import (
 	"net/http"
 
-	threeGrpc "github.com/Kurichi/plesio-monorepo/services/tree/pkg/grpc"
+	treeGrpc "github.com/Kurichi/plesio-monorepo/services/tree/pkg/grpc"
 	"github.com/labstack/echo/v4"
 	"google.golang.org/grpc/metadata"
 )
 
 type TreeClient struct {
-	client threeGrpc.TreeServiceClient
+	client treeGrpc.TreeServiceClient
 }
 
-func NewTreeClient(client threeGrpc.TreeServiceClient) *TreeClient {
+func NewTreeClient(client treeGrpc.TreeServiceClient) *TreeClient {
 	return &TreeClient{
 		client: client,
 	}
@@ -32,7 +32,7 @@ func (tc *TreeClient) GetMyTreeHandler(c echo.Context) error {
 	ctx := c.Request().Context()
 	md := metadata.New(map[string]string{"token": token})
 	ctx = metadata.NewOutgoingContext(ctx, md)
-	res, err := tc.client.GetMyTree(ctx, &threeGrpc.GetTreeRequest{
+	res, err := tc.client.GetMyTree(ctx, &treeGrpc.GetTreeRequest{
 		Id: userId,
 	})
 	if err != nil {
@@ -58,7 +58,7 @@ func (tc *TreeClient) InitTreeHandler(c echo.Context) error {
 	ctx := c.Request().Context()
 	md := metadata.New(map[string]string{"token": token})
 	ctx = metadata.NewOutgoingContext(ctx, md)
-	res, err := tc.client.InitTree(ctx, &threeGrpc.PlantTreeRequest{
+	res, err := tc.client.InitTree(ctx, &treeGrpc.PlantTreeRequest{
 		Id: userId,
 	})
 	if err != nil {
@@ -84,7 +84,7 @@ func (tc *TreeClient) PlantTreeHandler(c echo.Context) error {
 	ctx := c.Request().Context()
 	md := metadata.New(map[string]string{"token": token})
 	ctx = metadata.NewOutgoingContext(ctx, md)
-	res, err := tc.client.PlantTree(ctx, &threeGrpc.PlantTreeRequest{
+	res, err := tc.client.PlantTree(ctx, &treeGrpc.PlantTreeRequest{
 		Id: userId,
 	})
 	if err != nil {
@@ -103,7 +103,7 @@ func (tc *TreeClient) GetTreeByUserId(c echo.Context) error {
 	}
 
 	ctx := c.Request().Context()
-	res, err := tc.client.GetTreeByUserId(ctx, &threeGrpc.GetTreeRequest{
+	res, err := tc.client.GetTreeByUserId(ctx, &treeGrpc.GetTreeRequest{
 		Id: param.ID,
 	})
 	if err != nil {
@@ -122,7 +122,7 @@ func (tc *TreeClient) GetTreeRanking(c echo.Context) error {
 	}
 
 	ctx := c.Request().Context()
-	res, err := tc.client.GetTreeRanking(ctx, &threeGrpc.GetTreeRankingRequest{
+	res, err := tc.client.GetTreeRanking(ctx, &treeGrpc.GetTreeRankingRequest{
 		Limit: query.Limit,
 	})
 	if err != nil {

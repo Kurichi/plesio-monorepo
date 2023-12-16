@@ -1,7 +1,7 @@
 package tree
 
 import (
-	hellopb "github.com/Kurichi/plesio-monorepo/services/tree/pkg/grpc"
+	treeGrpc "github.com/Kurichi/plesio-monorepo/services/tree/pkg/grpc"
 )
 
 type GetTreeParam struct {
@@ -28,7 +28,7 @@ type GetTreeRankingQuery struct {
 	Limit int32 `query:"limit"`
 }
 
-func NewGetTreeResponse(tree *hellopb.Tree) *GetTreeResponse {
+func NewGetTreeResponse(tree *treeGrpc.Tree) *GetTreeResponse {
 	return &GetTreeResponse{
 		Tree: &Tree{
 			ID:         tree.GetId(),
@@ -40,7 +40,7 @@ func NewGetTreeResponse(tree *hellopb.Tree) *GetTreeResponse {
 	}
 }
 
-func NewInitTreeResponse(tree *hellopb.Tree) *GetTreeResponse {
+func NewInitTreeResponse(tree *treeGrpc.Tree) *GetTreeResponse {
 	return &GetTreeResponse{
 		Tree: &Tree{
 			ID:         tree.GetId(),
@@ -52,7 +52,7 @@ func NewInitTreeResponse(tree *hellopb.Tree) *GetTreeResponse {
 	}
 }
 
-func NewPlantTreeResponse(tree *hellopb.Tree) *GetTreeResponse {
+func NewPlantTreeResponse(tree *treeGrpc.Tree) *GetTreeResponse {
 	return &GetTreeResponse{
 		Tree: &Tree{
 			ID:         tree.GetId(),
@@ -64,7 +64,7 @@ func NewPlantTreeResponse(tree *hellopb.Tree) *GetTreeResponse {
 	}
 }
 
-func NewGetTreeRankingResponse(trees []*hellopb.Tree) *GetTreeRankingResponse {
+func NewGetTreeRankingResponse(trees []*treeGrpc.Tree) *GetTreeRankingResponse {
 	res := &GetTreeRankingResponse{}
 	for _, tree := range trees {
 		res.Trees = append(res.Trees, &Tree{

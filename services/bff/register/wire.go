@@ -8,7 +8,7 @@ import (
 	"github.com/Kurichi/plesio-monorepo/services/bff/handler/user"
 	"github.com/Kurichi/plesio-monorepo/services/bff/middleware"
 	"github.com/Kurichi/plesio-monorepo/services/bff/pkg/firebase"
-	hellopb "github.com/Kurichi/plesio-monorepo/services/tree/pkg/grpc"
+	treeGrpc "github.com/Kurichi/plesio-monorepo/services/tree/pkg/grpc"
 	"github.com/google/wire"
 	"github.com/labstack/echo/v4"
 	"google.golang.org/grpc"
@@ -18,7 +18,7 @@ func New(grpc.ClientConnInterface) *echo.Echo {
 	wire.Build(
 		// TreeClientの生成
 		tree.NewTreeClient,
-		hellopb.NewTreeServiceClient,
+		treeGrpc.NewTreeServiceClient,
 
 		// UserClientの生成
 		user.NewUserClient,
