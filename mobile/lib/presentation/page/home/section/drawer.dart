@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:kiikuten/presentation/page/settings/settings_screen.dart';
 
 class KiikutenDrawer extends StatelessWidget {
   const KiikutenDrawer({super.key});
@@ -19,6 +20,11 @@ class KiikutenDrawer extends StatelessWidget {
             title: const Text('設定'),
             onTap: () {
               Navigator.pop(context);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const SettingsScreen(),
+                ),
+              );
             },
           ),
           ListTile(
