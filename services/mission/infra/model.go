@@ -1,16 +1,20 @@
 package infra
 
 import (
+	"context"
+	"log"
+
 	"github.com/Kurichi/plesio-monorepo/services/mission/domain"
+	"github.com/Kurichi/plesio-monorepo/services/mission/pkg/database"
 	"github.com/uptrace/bun"
 )
 
 type mission struct {
 	bun.BaseModel `bun:"missions"`
 
-	ID          string
+	ID          string `bun:",pk"`
 	Description string
-	Term        string `bun:",index"`
+	Term        string
 	Target      string
 	Amount      int
 	Unit        string
@@ -28,8 +32,8 @@ type reward struct {
 type userMission struct {
 	bun.BaseModel `bun:"user_missions"`
 
-	UserID    string
-	MissionID string
+	UserID    string   `bun:",pk"`
+	MissionID string   `bun:",pk"`
 	Mission   *mission `bun:"rel:belongs-to,join:mission_id=id"`
 	Progress  int
 	Deadline  int64
@@ -71,6 +75,7 @@ func (r *reward) ConvertToEntity() *domain.Reward {
 }
 
 func (um *userMission) ConvertToEntity() *domain.UserMission {
+	log.Printf("%+v", um)
 	return &domain.UserMission{
 		UserID:   um.UserID,
 		Mission:  um.Mission.ConvertToEntity(),
@@ -121,4 +126,20 @@ func ConvertMissionsFromEntity(m []*domain.Mission) []*mission {
 		missions = append(missions, ConvertMissionFromEntity(mission))
 	}
 	return missions
+}
+
+func Migrate(db *database.DB) error {
+	if _, err := db.NewCreateTable().Model(&mission{}).Exec(context.Background()); err != nil {
+		return err
+	}
+	if _, err := db.NewCreateIndex().Model(&mission{}).Index("term_idx").Column("term").Exec(context.Background()); err != nil {
+		return err
+	}
+	if _, err := db.NewCreateTable().Model(&reward{}).Exec(context.Background()); err != nil {
+		return err
+	}
+	if _, err := db.NewCreateTable().Model(&userMission{}).Exec(context.Background()); err != nil {
+		return err
+	}
+	return nil
 }

@@ -12,20 +12,23 @@ type missionUsecase struct {
 	tx   domain.TxRepository
 }
 
-func NewMissionUsecase(repo domain.MissionRepository, svc domain.MissionService) MissionUsecase {
+func NewMissionUsecase(repo domain.MissionRepository, svc domain.MissionService, tx domain.TxRepository) MissionUsecase {
 	return &missionUsecase{
 		repo: repo,
 		svc:  svc,
+		tx:   tx,
 	}
 }
 
 // GetMyMissions implements MissionUsecase.
 func (uc *missionUsecase) GetMissions(ctx context.Context, userID string, term *string) ([]*UserMissionDTO, error) {
 	var filter domain.Filter
-	if *term == "daily" {
-		filter.Term = domain.TermDaily
-	} else if *term == "weekly" {
-		filter.Term = domain.TermDaily
+	if term != nil {
+		if *term == "daily" {
+			filter.Term = domain.TermDaily
+		} else if *term == "weekly" {
+			filter.Term = domain.TermDaily
+		}
 	}
 	dailyMissions, err := uc.repo.GetUserMissions(ctx, userID, filter)
 	if err != nil {
@@ -46,7 +49,7 @@ func (uc *missionUsecase) GetMissions(ctx context.Context, userID string, term *
 }
 
 func (uc *missionUsecase) ProgressMission(ctx context.Context, userID string, missionID string, progress int) (*UserMissionDTO, error) {
-	var userMission *domain.UserMission
+	userMission := &domain.UserMission{}
 	err := uc.tx.DoInTx(ctx, func(ctx context.Context) error {
 		var err error
 		userMission, err = uc.repo.GetUserMissionByID(ctx, userID, missionID)

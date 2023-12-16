@@ -2,9 +2,10 @@ package infra
 
 import (
 	"context"
+	"math/rand"
 
-	"github.com/Kurichi/plesio-monorepo/services/item/pkg/database"
 	"github.com/Kurichi/plesio-monorepo/services/mission/domain"
+	"github.com/Kurichi/plesio-monorepo/services/mission/pkg/database"
 	"github.com/uptrace/bun"
 )
 
@@ -59,11 +60,15 @@ func (repo *missionRepositoryImpl) GetRandomMissions(ctx context.Context, count 
 	} else if filter.Term == domain.TermWeekly {
 		query = query.Where("term = ?", "weekly")
 	}
-	query = query.OrderExpr("RAND()").Limit(int(count))
 	if err := query.Scan(ctx); err != nil {
 		return nil, err
 	}
-	return ConvertMissionsToEntity(missions), nil
+	allMissions := ConvertMissionsToEntity(missions)
+	rand.Shuffle(len(allMissions), func(i, j int) { allMissions[i], allMissions[j] = allMissions[j], allMissions[i] })
+
+	count = min(uint8(len(allMissions)), count)
+
+	return allMissions[:count], nil
 }
 
 // GetUserMissionByID implements domain.MissionRepository.
@@ -76,8 +81,8 @@ func (repo *missionRepositoryImpl) GetUserMissionByID(ctx context.Context, userI
 		query = repo.db.NewSelect()
 	}
 
-	var userMission userMission
-	query = query.Model(&userMission).Where("user_id = ?", userID).Where("mission_id = ?", missionID)
+	userMission := userMission{}
+	query = query.Model(&userMission).Where("user_id = ?", userID).Where("mission_id = ?", missionID).Relation("Mission")
 
 	if err := query.Scan(ctx); err != nil {
 		return nil, err
