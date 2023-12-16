@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kiikuten/firebase_options.dart';
 import 'package:kiikuten/presentation/page/auth/auth.dart';
@@ -25,10 +27,19 @@ class KiikutenApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: '木育展',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF166718),
+          background: const Color(0xFF166718),
+        ),
+        textTheme: kIsWeb
+            ? GoogleFonts.dotGothic16TextTheme(Theme.of(context).textTheme)
+            : null,
+        // fontFamilyFallback:
+        //     kIsWeb ? const ['${FontFamily.notoSansJP} Regular'] : null,
       ),
       home: const KiikutenAuth(),
     );
