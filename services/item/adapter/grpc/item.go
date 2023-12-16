@@ -22,7 +22,7 @@ func NewItemController(usecase application.ItemUsecase) itempb.ItemServiceServer
 
 // GetMyInventory implements grpc.ItemServiceServer.
 func (ctrl *itemController) GetMyInventory(ctx context.Context, req *itempb.GetMyInventoryRequest) (*itempb.GetMyInventoryResponse, error) {
-	inv, err := ctrl.usecase.GetMyInventory(ctx, req.UserId)
+	inv, err := ctrl.usecase.GetMyInventory(ctx, req.GetUserId())
 	if err != nil {
 		return nil, err
 	}
@@ -44,7 +44,7 @@ func (ctrl *itemController) GetMyInventory(ctx context.Context, req *itempb.GetM
 
 // UseItem implements grpc.ItemServiceServer.
 func (ctrl *itemController) UseItem(ctx context.Context, req *itempb.UseItemRequest) (*emptypb.Empty, error) {
-	if err := ctrl.usecase.UseItem(ctx, req.UserId, req.ItemId); err != nil {
+	if err := ctrl.usecase.UseItem(ctx, req.GetUserId(), req.GetItemId()); err != nil {
 		return nil, err
 	}
 

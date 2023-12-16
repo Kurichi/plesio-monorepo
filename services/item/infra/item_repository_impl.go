@@ -20,28 +20,21 @@ func NewItemRepository(db *database.DB) domain.ItemRepository {
 // GetByID implements domain.ItemRepository.
 func (repo *itemRepository) GetByID(ctx context.Context, id domain.ItemID) (*domain.Item, error) {
 	tx, err := database.GetTxByContext(ctx)
-	if err != nil {
-		var err error
-		tx, err = repo.db.BeginTx(ctx, nil)
-		if err != nil {
-			return nil, err
-		}
-		defer func() {
-			if err := recover(); err != nil {
-				tx.Rollback()
-			}
-		}()
-		defer tx.Commit()
+	var query *bun.SelectQuery
+	if err == nil {
+		query = tx.NewSelect()
+	} else {
+		query = repo.db.NewSelect()
 	}
 
 	var item item
-	err = tx.NewSelect().
+	err = query.
 		Model(&item).
 		Where("? = ?", bun.Ident("id"), id).
 		Scan(ctx)
 	if err != nil {
 		switch errors.Cause(err) {
-		//TODO: add custom error for not found
+		// TODO: add custom error for not found
 		default:
 			return nil, errors.WithStack(err)
 		}
