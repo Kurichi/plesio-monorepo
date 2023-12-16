@@ -9,20 +9,6 @@ import (
 	"github.com/uptrace/bun"
 )
 
-type item struct {
-	bun.Model `bun:"items"`
-
-	ID   string `bun:"type:uuid,pk"`
-	Name string `bun:"type:varchar(255),notnull"`
-}
-
-func (item *item) ConvertToEntity() *domain.Item {
-	return &domain.Item{
-		ID:   domain.NewItemIDFromString(item.ID),
-		Name: item.Name,
-	}
-}
-
 type itemRepository struct {
 	db *database.DB
 }
@@ -48,9 +34,9 @@ func (repo *itemRepository) GetByID(ctx context.Context, id domain.ItemID) (*dom
 		defer tx.Commit()
 	}
 
-	item := &item{}
+	var item item
 	err = tx.NewSelect().
-		Model(item).
+		Model(&item).
 		Where("? = ?", bun.Ident("id"), id).
 		Scan(ctx)
 	if err != nil {
@@ -62,4 +48,9 @@ func (repo *itemRepository) GetByID(ctx context.Context, id domain.ItemID) (*dom
 	}
 
 	return item.ConvertToEntity(), nil
+}
+
+// GetByIDs implements domain.ItemRepository.
+func (*itemRepository) GetByIDs(ctx context.Context, id domain.ItemID) ([]*domain.Item, error) {
+	panic("unimplemented")
 }

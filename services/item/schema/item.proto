@@ -2,19 +2,30 @@ syntax = "proto3";
 option go_package = "pkg/grpc";
 package item;
 
+import "google/protobuf/empty.proto";
+
 service ItemService{
-  rpc GetItemByID(GetItemRequest) returns (GetItemResponse);
-}
-
-message GetItemRequest {
-    string id = 1;
-}
-
-message GetItemResponse {
-    Item item = 1;
+    rpc GetMyInventory(GetMyInventoryRequest) returns (GetMyInventoryResponse);
+    rpc UseItem(UseItemRequest) returns (google.protobuf.Empty);
 }
 
 message Item {
     string id = 1;
     string name = 2;
+    string description = 3;
+    string image = 4;
+    uint32 quantity = 5;
+}
+
+message GetMyInventoryRequest {
+    string userId = 1;
+}
+
+message GetMyInventoryResponse {
+    repeated Item items = 1;
+}
+
+message UseItemRequest {
+    string userId = 1;
+    string itemId = 2;
 }

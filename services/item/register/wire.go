@@ -3,6 +3,7 @@
 package register
 
 import (
+	"github.com/Kurichi/plesio-monorepo/services/item/domain"
 	"github.com/Kurichi/plesio-monorepo/services/item/pkg/config"
 	"github.com/Kurichi/plesio-monorepo/services/item/pkg/database"
 	"github.com/google/wire"
@@ -18,6 +19,8 @@ func New() *grpc.Server {
 		config.NewDBConfig,
 		database.New,
 		infra.NewItemRepository,
+		infra.NewInventoryRepository,
+		domain.NewItemService,
 		application.NewItemUsecase,
 		api.NewItemController,
 		Register,
