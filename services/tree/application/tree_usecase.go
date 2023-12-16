@@ -76,3 +76,23 @@ func (uc *treeUsecase) GetTreeRanking(ctx context.Context, limit int) ([]*TreeDT
 	}
 	return NewTreesFromEntity(ranking), nil
 }
+
+func (uc *treeUsecase) GrowthTree(ctx context.Context, userID string, target string, amount int) (*GrowthTreeDTO, error) {
+	tree, err := uc.repo.GetTreeByUserID(ctx, userID)
+	if err != nil {
+		return nil, err
+	}
+	if target == "water" {
+		tree.Water += tree.Water + amount
+	} else if target == "fertilizer" {
+		tree.Fertilizer += tree.Fertilizer + amount
+	}
+	isStageUp, err := tree.Growth()
+	if err != nil {
+		return nil, err
+	}
+	if err = uc.repo.UpdateTree(ctx, tree); err != nil {
+		return nil, err
+	}
+	return NewTreeWithGrowthFromEntity(tree, isStageUp), nil
+}
