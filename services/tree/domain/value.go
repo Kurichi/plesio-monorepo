@@ -9,6 +9,11 @@ const (
 	TreeStageSapling
 	TreeStageMature
 	TreeStageGiantTree
+
+	SproutBorderPoint    = 100
+	SaplingBorderPoint   = 1000
+	MatureBorderPoint    = 10000
+	GiantTreeBorderPoint = 100000
 )
 
 func (ts TreeStage) Int() int {

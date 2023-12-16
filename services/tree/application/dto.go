@@ -11,6 +11,10 @@ type (
 		Fertilizer int
 		PlantAt    int64
 	}
+	GrowthTreeDTO struct {
+		TreeDTO
+		IsStageUp bool
+	}
 )
 
 func NewTreeFromEntity(e *domain.Tree) *TreeDTO {
@@ -31,4 +35,17 @@ func NewTreesFromEntity(e []*domain.Tree) []*TreeDTO {
 	}
 
 	return trees
+}
+
+func NewTreeWithGrowthFromEntity(e *domain.Tree, isStageUp bool) *GrowthTreeDTO {
+	return &GrowthTreeDTO{
+		TreeDTO: TreeDTO{
+			UserID:     e.UserID,
+			Stage:      e.Stage.Int(),
+			Water:      e.Water,
+			Fertilizer: e.Fertilizer,
+			PlantAt:    e.PlantAt,
+		},
+		IsStageUp: isStageUp,
+	}
 }

@@ -8,4 +8,5 @@ type TreeUsecase interface {
 	GetMyTree(ctx context.Context, userID string) (*TreeDTO, error)
 	GetTreeByUserID(ctx context.Context, userID string) (*TreeDTO, error)
 	GetTreeRanking(ctx context.Context, limit int) ([]*TreeDTO, error)
+	GrowthTree(ctx context.Context, userID string, target string, amount int) (*GrowthTreeDTO, error)
 }
