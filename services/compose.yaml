@@ -42,6 +42,7 @@ services:
       - .env
     environment:
       - PORT=${ITEM_PORT}
+      - GOOGLE_APPLICATION_CREDENTIALS=/src/service-account.json
     depends_on:
       db:
         condition: service_healthy

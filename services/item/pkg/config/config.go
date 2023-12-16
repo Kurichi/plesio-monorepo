@@ -29,3 +29,15 @@ func NewDBConfig() *DBConfig {
 		DBName:   os.Getenv("DB_NAME"),
 	}
 }
+
+type SubscriberConfig struct {
+	ProjectID string
+	TopicID   string
+}
+
+func NewSubscriberConfig() *SubscriberConfig {
+	return &SubscriberConfig{
+		ProjectID: os.Getenv("PROJECT_ID"),
+		TopicID:   os.Getenv("ITEM_SUB_ID"),
+	}
+}

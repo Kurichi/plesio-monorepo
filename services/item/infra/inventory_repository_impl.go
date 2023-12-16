@@ -52,30 +52,26 @@ func (repo *inventoryRepositoryImpl) Update(ctx context.Context, inv *domain.Inv
 	items := make([]*inventory, 0, len(inv.Items))
 	for _, i := range inv.Items {
 		items = append(items, &inventory{
-			UserID: inv.UserID,
-			Item: &item{
-				ID:          i.ID.String(),
-				Name:        i.Name,
-				Description: i.Description,
-				Target:      i.Target.String(),
-				Amount:      i.Amount,
-			},
+			UserID:   inv.UserID,
+			ItemID:   i.ID.String(),
 			Quantity: i.Quantity,
 		})
 	}
 
 	tx, err := database.GetTxByContext(ctx)
-	var query *bun.UpdateQuery
+	var query *bun.InsertQuery
 	if err == nil {
-		query = tx.NewUpdate().With("_data", tx.NewValues(items))
+		query = tx.NewInsert().With("_data", tx.NewValues(&items))
 	} else {
-		query = repo.db.NewUpdate().With("_data", repo.db.NewValues(items))
+		query = repo.db.NewInsert().With("_data", repo.db.NewValues(&items))
 	}
 
-	if _, err := query.Model((*item)(nil)).
-		TableExpr("_data").
-		Where("? = ?", bun.Ident("user_id"), inv.UserID).
-		Exec(ctx); err != nil {
+	query = query.Model((*item)(nil)).
+		On("CONFLICT (item_id, user_id) DO UPDATE").
+		Set("? = ?", bun.Ident("quantity"), bun.Ident("_data.quantity")).
+		Where("? = ?", bun.Ident("item_id"), bun.Ident("_data.item_id")).
+		Where("? = ?", bun.Ident("user_id"), inv.UserID)
+	if _, err := query.Exec(ctx); err != nil {
 		return errors.WithStack(err)
 	}
 

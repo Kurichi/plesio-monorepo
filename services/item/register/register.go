@@ -14,3 +14,15 @@ func Register(
 
 	return server
 }
+
+type Server struct {
+	Server     *grpc.Server
+	Subscriber *pbServer
+}
+
+func NewServer(s *grpc.Server, sub *pbServer) *Server {
+	return &Server{
+		Server:     s,
+		Subscriber: sub,
+	}
+}
