@@ -28,7 +28,9 @@ class SigninScreen extends StatelessWidget {
             children: [
               RichText(
                 text: TextSpan(
-                  style: Theme.of(context).textTheme.headlineSmall,
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                        letterSpacing: 2.0,
+                      ),
                   children: [
                     const TextSpan(text: '自分の'),
                     TextSpan(
