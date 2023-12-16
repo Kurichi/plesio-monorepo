@@ -3,7 +3,15 @@ option go_package = "pkg/grpc";
 package tree;
 
 service TreeService {
-    rpc GetTree(GetTreeRequest) returns (GetTreeResponse) {}
+    rpc InitTree(PlantTreeRequest) returns (GetTreeResponse) {}
+    rpc PlantTree(PlantTreeRequest) returns (GetTreeResponse) {}
+    rpc GetTreeByUserId(GetTreeRequest) returns (GetTreeResponse) {}
+    rpc GetMyTree(GetTreeRequest) returns (GetTreeResponse) {}
+    rpc GetTreeRanking(GetTreeRankingRequest) returns (GetTreeRankingResponse) {}
+}
+
+message PlantTreeRequest {
+    string id = 1;
 }
 
 message GetTreeRequest {
@@ -14,9 +22,18 @@ message GetTreeResponse {
     Tree tree = 1;
 }
 
+message GetTreeRankingRequest {
+    int32 limit = 1;
+}
+
+message GetTreeRankingResponse {
+    repeated Tree ranking = 1;
+}
+
 message Tree {
     string id = 1;
-    string name = 2;
-    string description = 3;
-    repeated Tree children = 4;
+    int32 stage = 2;
+    int32 water = 3;
+    int32 fertilizer = 4;
+    int64 plant_at = 5;
 }
