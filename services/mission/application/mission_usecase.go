@@ -9,13 +9,20 @@ import (
 type missionUsecase struct {
 	repo domain.MissionRepository
 	svc  domain.MissionService
+	pub  domain.Publisher
 	tx   domain.TxRepository
 }
 
-func NewMissionUsecase(repo domain.MissionRepository, svc domain.MissionService, tx domain.TxRepository) MissionUsecase {
+func NewMissionUsecase(
+	repo domain.MissionRepository,
+	svc domain.MissionService,
+	pub domain.Publisher,
+	tx domain.TxRepository,
+) MissionUsecase {
 	return &missionUsecase{
 		repo: repo,
 		svc:  svc,
+		pub:  pub,
 		tx:   tx,
 	}
 }
@@ -65,5 +72,14 @@ func (uc *missionUsecase) ProgressMission(ctx context.Context, userID string, mi
 	if err != nil {
 		return nil, err
 	}
-	return NewUserMissionFromEntity(userMission, userMission.IsCompleted()), nil
+
+	isCompleted, event := userMission.IsCompleted()
+	if !isCompleted {
+		err := uc.pub.Publish(ctx, event)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return NewUserMissionFromEntity(userMission, isCompleted), nil
 }

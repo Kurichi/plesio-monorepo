@@ -66,7 +66,8 @@ func NewUserMissionsFromEntity(e []*domain.UserMission) []*UserMissionDTO {
 	userMissions := make([]*UserMissionDTO, 0, len(e))
 
 	for _, item := range e {
-		userMissions = append(userMissions, NewUserMissionFromEntity(item, item.IsCompleted()))
+		isCompleted, _ := item.IsCompleted()
+		userMissions = append(userMissions, NewUserMissionFromEntity(item, isCompleted))
 	}
 
 	return userMissions

@@ -23,3 +23,7 @@ type MissionRepository interface {
 type TxRepository interface {
 	DoInTx(ctx context.Context, fn func(ctx context.Context) error) error
 }
+
+type Publisher interface {
+	Publish(ctx context.Context, event *CompleteMissionEvent) error
+}
