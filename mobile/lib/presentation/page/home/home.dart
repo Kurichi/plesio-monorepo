@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:kiikuten/presentation/designsystem/component/kiikuten_avatar.dart';
 import 'package:kiikuten/presentation/page/home/section/drawer.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -24,18 +25,7 @@ class HomeScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              clipBehavior: Clip.hardEdge,
-              child: Image.network(
-                FirebaseAuth.instance.currentUser!.photoURL ?? '',
-                width: 36,
-                height: 36,
-              ),
-            ),
+            icon: const KiikutenAvatar(),
           ),
         ],
       ),
