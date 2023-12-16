@@ -22,7 +22,7 @@ func main() {
 	reflection.Register(s)
 
 	go func() {
-		log.Printf("start gRPC server! port: %v", cfg.Port)
+		log.Printf("start gRPC server!! port: %v", cfg.Port)
 		s.Serve(listener)
 	}()
 
