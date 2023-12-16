@@ -12,5 +12,4 @@ func main() {
 	if err := infra.Migrate(db); err != nil {
 		panic(err)
 	}
-
 }

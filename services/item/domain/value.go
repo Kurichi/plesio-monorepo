@@ -33,6 +33,10 @@ func (t Target) String() string {
 	return string(t)
 }
 
+func (t Target) IsValid() bool {
+	return t == TargetWater || t == TargetFertilizer
+}
+
 type ItemUsedEvent struct {
 	UserID string
 	Target Target

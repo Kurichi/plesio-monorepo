@@ -5,6 +5,7 @@ import "context"
 type ItemRepository interface {
 	GetByID(ctx context.Context, id ItemID) (*Item, error)
 	GetByIDs(ctx context.Context, id []ItemID) ([]*Item, error)
+	StoreItem(ctx context.Context, item *Item) error
 }
 
 type InventoryRepository interface {

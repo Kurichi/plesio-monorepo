@@ -45,7 +45,6 @@ func (repo *inventoryRepositoryImpl) GetByUserID(ctx context.Context, userID str
 		UserID: userID,
 		Items:  items,
 	}, nil
-
 }
 
 // Update implements domain.InventoryRepository.
