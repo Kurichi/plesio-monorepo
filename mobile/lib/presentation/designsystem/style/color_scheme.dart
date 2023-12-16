@@ -16,8 +16,25 @@ class KiikutenThemeData {
   }) {
     _primary = colorScheme.primary;
     _background = colorScheme.background;
-    leaf = KiikutenColor.green;
-    trunk = KiikutenColor.brown;
+    leaf = _randomizeColor(KiikutenColor.green);
+    trunk = _randomizeColor(KiikutenColor.brown);
+  }
+
+  Color _randomizeColor(Color baseColor) {
+    Random random = Random();
+    int r = baseColor.red + random.nextInt(10) - 5;
+    int g = baseColor.green + random.nextInt(10) - 5;
+    int b = baseColor.blue + random.nextInt(10) - 5;
+    return Color.fromRGBO(
+      _clampColorValue(r),
+      _clampColorValue(g),
+      _clampColorValue(b),
+      1,
+    );
+  }
+
+  int _clampColorValue(int value) {
+    return max(0, min(255, value));
   }
 
   Color surfaceColorByAlpha(double alpha, {Color? foreground}) {
