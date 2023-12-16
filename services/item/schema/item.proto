@@ -7,6 +7,7 @@ import "google/protobuf/empty.proto";
 service ItemService{
     rpc GetMyInventory(GetMyInventoryRequest) returns (GetMyInventoryResponse);
     rpc UseItem(UseItemRequest) returns (google.protobuf.Empty);
+    rpc GetItemsByIDs(GetItemsByIDsRequest) returns (GetItemsByIDsResponse);
 }
 
 message Item {
@@ -28,4 +29,12 @@ message GetMyInventoryResponse {
 message UseItemRequest {
     string userId = 1;
     string itemId = 2;
+}
+
+message GetItemsByIDsRequest {
+    repeated string itemIds = 1;
+}
+
+message GetItemsByIDsResponse {
+    repeated Item items = 1;
 }
