@@ -15,7 +15,7 @@ class KiikutenAuth extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const LoadingScreen();
         } else if (snapshot.hasData) {
-          return const HomeScreen(title: 'Flutter Demo Home Page');
+          return const HomeScreen();
         } else {
           return const SigninScreen();
         }
