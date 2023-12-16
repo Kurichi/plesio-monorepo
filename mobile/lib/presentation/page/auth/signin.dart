@@ -8,14 +8,68 @@ class SigninScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Signin'),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.park_outlined),
+            const SizedBox(width: 8),
+            Text(
+              '木育展',
+              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            ),
+          ],
+        ),
       ),
       body: Center(
-        child: FilledButton(
-          onPressed: () async {
-            await signInWithGitHub();
-          },
-          child: const Text('Sign in with GitHub'),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              RichText(
+                text: TextSpan(
+                  style: Theme.of(context).textTheme.headlineSmall,
+                  children: [
+                    const TextSpan(text: '自分の'),
+                    TextSpan(
+                      text: '木',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: 36,
+                      ),
+                    ),
+                    const TextSpan(text: 'を'),
+                    TextSpan(
+                      text: '育',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: 36,
+                      ),
+                    ),
+                    const TextSpan(text: 'てる'),
+                    TextSpan(
+                      text: '展',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: 36,
+                      ),
+                    ),
+                    const TextSpan(text: '覧会'),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 40),
+              FilledButton(
+                onPressed: () async {
+                  await signInWithGitHub();
+                },
+                child: const Text('Sign in with GitHub'),
+              ),
+            ],
+          ),
         ),
       ),
     );
