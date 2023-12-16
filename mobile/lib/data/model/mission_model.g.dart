@@ -29,3 +29,21 @@ Map<String, dynamic> _$$MissionModelImplToJson(_$MissionModelImpl instance) =>
       'unit': instance.unit,
       'rewards': instance.rewards,
     };
+
+_$UserMissionModelImpl _$$UserMissionModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$UserMissionModelImpl(
+      userId: json['userId'] as String,
+      mission: MissionModel.fromJson(json['mission'] as Map<String, dynamic>),
+      progress: json['progress'] as int,
+      deadline: json['deadline'] as int,
+    );
+
+Map<String, dynamic> _$$UserMissionModelImplToJson(
+        _$UserMissionModelImpl instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
+      'mission': instance.mission,
+      'progress': instance.progress,
+      'deadline': instance.deadline,
+    };
