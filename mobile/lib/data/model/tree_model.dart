@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:kiikuten/domain/entity/tree.dart';
 
 part 'tree_model.freezed.dart';
 
@@ -15,4 +16,11 @@ class TreeModel with _$TreeModel {
 
   factory TreeModel.fromJson(Map<String, dynamic> json) =>
       _$TreeModelFromJson(json);
+
+  Tree toEntity() {
+    return Tree(
+      id: id,
+      growthLevel: growthLevel,
+    );
+  }
 }

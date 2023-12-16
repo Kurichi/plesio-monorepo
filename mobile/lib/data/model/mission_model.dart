@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kiikuten/data/model/item_model.dart';
+import 'package:kiikuten/domain/entity/mission.dart';
 
 part 'mission_model.freezed.dart';
 
@@ -21,4 +22,16 @@ class MissionModel with _$MissionModel {
 
   factory MissionModel.fromJson(Map<String, dynamic> json) =>
       _$MissionModelFromJson(json);
+
+  Mission toEntity() {
+    return Mission(
+      id: id,
+      description: description,
+      term: term,
+      target: target,
+      amount: amount,
+      unit: unit,
+      rewards: rewards.map((e) => e.toEntity()).toList(),
+    );
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:kiikuten/domain/entity/item.dart';
 
 part 'item_model.freezed.dart';
 
@@ -17,4 +18,13 @@ class ItemModel with _$ItemModel {
 
   factory ItemModel.fromJson(Map<String, dynamic> json) =>
       _$ItemModelFromJson(json);
+
+  Item toEntity() {
+    return Item(
+      id: id,
+      name: name,
+      description: description,
+      growthEffect: growthEffect,
+    );
+  }
 }

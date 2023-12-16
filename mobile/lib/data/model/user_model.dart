@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kiikuten/data/model/tree_model.dart';
+import 'package:kiikuten/domain/entity/user.dart';
 
 part 'user_model.freezed.dart';
 
@@ -18,4 +19,13 @@ class UserModel with _$UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
+
+  User toEntity() {
+    return User(
+      id: id,
+      username: username,
+      avatarUrl: avatarUrl,
+      tree: tree.toEntity(),
+    );
+  }
 }
