@@ -4,9 +4,9 @@ go 1.21.5
 
 require (
 	firebase.google.com/go/v4 v4.13.0
-	github.com/Kurichi/plesio-monorepo/services/item v0.0.0-20231216144139-4c789416dc0d
-	github.com/Kurichi/plesio-monorepo/services/mission v0.0.0-20231216144139-4c789416dc0d
-	github.com/Kurichi/plesio-monorepo/services/tree v0.0.0-20231216144139-4c789416dc0d
+	github.com/Kurichi/plesio-monorepo/services/item v0.0.0-20231216181646-72926897c360
+	github.com/Kurichi/plesio-monorepo/services/mission v0.0.0-20231216181646-72926897c360
+	github.com/Kurichi/plesio-monorepo/services/tree v0.0.0-20231216181253-53f0ac5c36aa
 	github.com/google/wire v0.5.0
 	github.com/labstack/echo/v4 v4.11.3
 	google.golang.org/api v0.154.0
