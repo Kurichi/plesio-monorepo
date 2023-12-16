@@ -11,6 +11,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -19,14 +20,16 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	ItemService_GetItemByID_FullMethodName = "/item.ItemService/GetItemByID"
+	ItemService_GetMyInventory_FullMethodName = "/item.ItemService/GetMyInventory"
+	ItemService_UseItem_FullMethodName        = "/item.ItemService/UseItem"
 )
 
 // ItemServiceClient is the client API for ItemService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ItemServiceClient interface {
-	GetItemByID(ctx context.Context, in *GetItemRequest, opts ...grpc.CallOption) (*GetItemResponse, error)
+	GetMyInventory(ctx context.Context, in *GetMyInventoryRequest, opts ...grpc.CallOption) (*GetMyInventoryResponse, error)
+	UseItem(ctx context.Context, in *UseItemRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type itemServiceClient struct {
@@ -37,9 +40,18 @@ func NewItemServiceClient(cc grpc.ClientConnInterface) ItemServiceClient {
 	return &itemServiceClient{cc}
 }
 
-func (c *itemServiceClient) GetItemByID(ctx context.Context, in *GetItemRequest, opts ...grpc.CallOption) (*GetItemResponse, error) {
-	out := new(GetItemResponse)
-	err := c.cc.Invoke(ctx, ItemService_GetItemByID_FullMethodName, in, out, opts...)
+func (c *itemServiceClient) GetMyInventory(ctx context.Context, in *GetMyInventoryRequest, opts ...grpc.CallOption) (*GetMyInventoryResponse, error) {
+	out := new(GetMyInventoryResponse)
+	err := c.cc.Invoke(ctx, ItemService_GetMyInventory_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *itemServiceClient) UseItem(ctx context.Context, in *UseItemRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, ItemService_UseItem_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +62,8 @@ func (c *itemServiceClient) GetItemByID(ctx context.Context, in *GetItemRequest,
 // All implementations must embed UnimplementedItemServiceServer
 // for forward compatibility
 type ItemServiceServer interface {
-	GetItemByID(context.Context, *GetItemRequest) (*GetItemResponse, error)
+	GetMyInventory(context.Context, *GetMyInventoryRequest) (*GetMyInventoryResponse, error)
+	UseItem(context.Context, *UseItemRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedItemServiceServer()
 }
 
@@ -58,8 +71,11 @@ type ItemServiceServer interface {
 type UnimplementedItemServiceServer struct {
 }
 
-func (UnimplementedItemServiceServer) GetItemByID(context.Context, *GetItemRequest) (*GetItemResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetItemByID not implemented")
+func (UnimplementedItemServiceServer) GetMyInventory(context.Context, *GetMyInventoryRequest) (*GetMyInventoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMyInventory not implemented")
+}
+func (UnimplementedItemServiceServer) UseItem(context.Context, *UseItemRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UseItem not implemented")
 }
 func (UnimplementedItemServiceServer) mustEmbedUnimplementedItemServiceServer() {}
 
@@ -74,20 +90,38 @@ func RegisterItemServiceServer(s grpc.ServiceRegistrar, srv ItemServiceServer) {
 	s.RegisterService(&ItemService_ServiceDesc, srv)
 }
 
-func _ItemService_GetItemByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetItemRequest)
+func _ItemService_GetMyInventory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMyInventoryRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ItemServiceServer).GetItemByID(ctx, in)
+		return srv.(ItemServiceServer).GetMyInventory(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ItemService_GetItemByID_FullMethodName,
+		FullMethod: ItemService_GetMyInventory_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ItemServiceServer).GetItemByID(ctx, req.(*GetItemRequest))
+		return srv.(ItemServiceServer).GetMyInventory(ctx, req.(*GetMyInventoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ItemService_UseItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UseItemRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ItemServiceServer).UseItem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ItemService_UseItem_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ItemServiceServer).UseItem(ctx, req.(*UseItemRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -100,8 +134,12 @@ var ItemService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*ItemServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetItemByID",
-			Handler:    _ItemService_GetItemByID_Handler,
+			MethodName: "GetMyInventory",
+			Handler:    _ItemService_GetMyInventory_Handler,
+		},
+		{
+			MethodName: "UseItem",
+			Handler:    _ItemService_UseItem_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
