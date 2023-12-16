@@ -16,6 +16,7 @@ class UseItemUseCase {
   Future<void> execute(String userId, String itemId) async {
     final user = await userRepository.getUser(userId);
     final item = await itemRepository.getItem(itemId);
+    await itemRepository.useItem(itemId);
     await treeRepository.growTree(user.tree, item.growthEffect);
   }
 }
