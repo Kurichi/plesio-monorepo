@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:kiikuten/presentation/page/home/section/drawer.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -20,6 +21,7 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
+      drawer: const KiikutenDrawer(),
     );
   }
 }

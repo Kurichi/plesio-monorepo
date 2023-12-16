@@ -22,7 +22,13 @@ class SigninScreen extends StatelessWidget {
   }
 
   Future<UserCredential> signInWithGitHub() async {
-    GithubAuthProvider githubProvider = GithubAuthProvider();
-    return await FirebaseAuth.instance.signInWithPopup(githubProvider);
+    final GithubAuthProvider githubProvider = GithubAuthProvider();
+    final user = await FirebaseAuth.instance.signInWithPopup(githubProvider);
+    final accessToken = user.credential?.accessToken;
+    final String idToken =
+        await FirebaseAuth.instance.currentUser!.getIdToken() ?? '';
+    debugPrint('accessToken: $accessToken');
+    debugPrint('idToken: $idToken');
+    return user;
   }
 }
