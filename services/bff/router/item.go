@@ -7,8 +7,7 @@ import (
 )
 
 func DefineItemRouter(g *echo.Group, ic *item.ItemClient, authHandler *middleware.AuthController) {
-	g.GET("/items", ic.GetItemsHandler, authHandler.TokenVerificationMiddleware)
-	g.GET("/items/:id", ic.GetItemDetailHandler, authHandler.TokenVerificationMiddleware)
-	g.DELETE("/items/:id", ic.DeleteItemHandler, authHandler.TokenVerificationMiddleware)
-	g.POST("/items/:id/use", ic.UseItemHandler, authHandler.TokenVerificationMiddleware)
+	items := g.Group("/items", authHandler.TokenVerificationMiddleware)
+	items.GET("/items", ic.GetItemsHandler)
+	items.POST("/items/:id/use", ic.UseItemHandler)
 }

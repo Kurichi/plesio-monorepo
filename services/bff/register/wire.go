@@ -8,6 +8,7 @@ import (
 	"github.com/Kurichi/plesio-monorepo/services/bff/handler/user"
 	"github.com/Kurichi/plesio-monorepo/services/bff/middleware"
 	"github.com/Kurichi/plesio-monorepo/services/bff/pkg/firebase"
+	itemGrpc "github.com/Kurichi/plesio-monorepo/services/item/pkg/grpc"
 	treeGrpc "github.com/Kurichi/plesio-monorepo/services/tree/pkg/grpc"
 	"github.com/google/wire"
 	"github.com/labstack/echo/v4"
@@ -25,6 +26,7 @@ func New(grpc.ClientConnInterface) *echo.Echo {
 
 		// ItemClientの生成
 		item.NewItemClient,
+		itemGrpc.NewItemServiceClient,
 
 		Register,
 
