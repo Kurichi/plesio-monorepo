@@ -7,12 +7,26 @@
 package register
 
 import (
+	"github.com/Kurichi/plesio-monorepo/services/user/adapter/api"
+	"github.com/Kurichi/plesio-monorepo/services/user/application"
+	"github.com/Kurichi/plesio-monorepo/services/user/infra"
+	"github.com/Kurichi/plesio-monorepo/services/user/pkg/config"
+	"github.com/Kurichi/plesio-monorepo/services/user/pkg/database"
+	"github.com/Kurichi/plesio-monorepo/services/user/pkg/firebase"
 	"google.golang.org/grpc"
 )
 
 // Injectors from wire.go:
 
 func New() *grpc.Server {
-	server := Register()
+	dbConfig := config.NewDBConfig()
+	db := database.New(dbConfig)
+	userRepository := infra.NewUserRepository(db)
+	app := firebase.InitializeFirebaseApp()
+	client := firebase.InitializeFBAuthClient(app)
+	identityRepository := infra.NewIdentityRepository(client)
+	userUsecase := application.NewUserUsecase(userRepository, identityRepository)
+	userServiceServer := api.NewUserHandler(userUsecase)
+	server := Register(userServiceServer)
 	return server
 }
