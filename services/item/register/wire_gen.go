@@ -9,6 +9,7 @@ package register
 import (
 	"github.com/Kurichi/plesio-monorepo/services/item/adapter/grpc"
 	"github.com/Kurichi/plesio-monorepo/services/item/application"
+	"github.com/Kurichi/plesio-monorepo/services/item/domain"
 	"github.com/Kurichi/plesio-monorepo/services/item/infra"
 	"github.com/Kurichi/plesio-monorepo/services/item/pkg/config"
 	"github.com/Kurichi/plesio-monorepo/services/item/pkg/database"
@@ -21,7 +22,9 @@ func New() *grpc.Server {
 	dbConfig := config.NewDBConfig()
 	db := database.New(dbConfig)
 	itemRepository := infra.NewItemRepository(db)
-	itemUsecase := application.NewItemUsecase(itemRepository)
+	inventoryRepository := infra.NewInventoryRepository(db)
+	itemService := domain.NewItemService(inventoryRepository)
+	itemUsecase := application.NewItemUsecase(itemRepository, inventoryRepository, itemService)
 	itemServiceServer := api.NewItemController(itemUsecase)
 	server := Register(itemServiceServer)
 	return server

@@ -5,6 +5,7 @@ import (
 
 	"github.com/Kurichi/plesio-monorepo/services/item/application"
 	itempb "github.com/Kurichi/plesio-monorepo/services/item/pkg/grpc"
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 type itemController struct {
@@ -14,21 +15,38 @@ type itemController struct {
 }
 
 func NewItemController(usecase application.ItemUsecase) itempb.ItemServiceServer {
-	return &itemController{usecase: usecase}
+	return &itemController{
+		usecase: usecase,
+	}
 }
 
-// GetItemByID implements grpc.ItemServiceServer.
-func (ctrl *itemController) GetItemByID(ctx context.Context, req *itempb.GetItemRequest) (*itempb.GetItemResponse, error) {
-	item, err := ctrl.usecase.GetItemByID(ctx, req.GetId())
+// GetMyInventory implements grpc.ItemServiceServer.
+func (ctrl *itemController) GetMyInventory(ctx context.Context, req *itempb.GetMyInventoryRequest) (*itempb.GetMyInventoryResponse, error) {
+	inv, err := ctrl.usecase.GetMyInventory(ctx, req.UserId)
 	if err != nil {
 		return nil, err
 	}
 
-	res := &itempb.GetItemResponse{
-		Item: &itempb.Item{
-			Id:   item.ID,
-			Name: item.Name,
-		},
+	items := make([]*itempb.Item, 0, len(inv))
+	for _, i := range inv {
+		items = append(items, &itempb.Item{
+			Id:          i.ID,
+			Name:        i.Name,
+			Description: i.Description,
+			Quantity:    uint32(i.Quantity),
+		})
 	}
-	return res, nil
+
+	return &itempb.GetMyInventoryResponse{
+		Items: items,
+	}, nil
+}
+
+// UseItem implements grpc.ItemServiceServer.
+func (ctrl *itemController) UseItem(ctx context.Context, req *itempb.UseItemRequest) (*emptypb.Empty, error) {
+	if err := ctrl.usecase.UseItem(ctx, req.UserId, req.ItemId); err != nil {
+		return nil, err
+	}
+
+	return &emptypb.Empty{}, nil
 }
