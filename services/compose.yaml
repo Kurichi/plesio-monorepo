@@ -7,6 +7,7 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - ./bff:/src
+      - ./firebase-auth.json:/src/firebase-auth.json
     ports:
       - ${EXTERNAL_PORT}:${BFF_PORT}
     env_file:
@@ -17,6 +18,7 @@ services:
       - MISSION_SERVICE_ADDR=${MISSION_HOSTNAME}:${MISSION_PORT}
       - TREE_SERVICE_ADDR=${TREE_HOSTNAME}:${TREE_PORT}
       - USER_SERVICE_ADDR=${USER_HOSTNAME}:${USER_PORT}
+      - FIREBASE_AUTH_CREDENTIALS=/src/firebase-auth.json
     depends_on:
       - item
       - mission
