@@ -1,10 +1,8 @@
-import 'package:kiikuten/domain/entity/item.dart';
 import 'package:kiikuten/domain/entity/tree.dart';
 import 'package:kiikuten/domain/entity/user.dart';
 
 abstract class UserRepository {
   Future<User> getUser(String userId);
-  Future<void> useItem(String userId, Item item);
 }
 
 class UserRepositoryImpl implements UserRepository {
@@ -19,11 +17,5 @@ class UserRepositoryImpl implements UserRepository {
         growthLevel: 1,
       ),
     );
-  }
-
-  @override
-  Future<void> useItem(String userId, Item item) async {
-    final user = await getUser(userId);
-    user.tree.grow(item.growthEffect);
   }
 }
