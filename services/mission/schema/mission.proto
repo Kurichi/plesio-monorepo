@@ -1,22 +1,44 @@
 syntax = "proto3";
 option go_package = "pkg/grpc";
-package tree;
+package mission;
 
-service TreeService {
-    rpc GetTree(GetTreeRequest) returns (GetTreeResponse) {}
+service MissionService {
+    rpc GetMissions(GetMissionsRequest) returns (GetMissionsResponse) {}
+    rpc ProggressMission(ProgressMissionRequest) returns (ProgressMissionResponse) {}
 }
 
-message GetTreeRequest {
+message GetMissionsRequest {
+    string user_id = 1;
+    optional string term = 2;
+}
+
+message GetMissionsResponse {
+    repeated Mission missions = 1;
+}
+
+message ProgressMissionRequest {
+    string user_id = 1;
+    string mission_id = 2;
+}
+
+message ProgressMissionResponse {
+    Mission mission = 1;
+    bool is_completed = 2;
+}
+
+message Mission {
     string id = 1;
+    string description = 2;
+    int32 target = 3;
+    int32 amount = 4;
+    string unit = 5;
+    string term = 6;
+    repeated Reward rewards = 7;
+    uint32 progress = 8;
+    uint32 deadline = 9;
 }
 
-message GetTreeResponse {
-    Tree tree = 1;
-}
-
-message Tree {
-    string id = 1;
-    string name = 2;
-    string description = 3;
-    repeated Tree children = 4;
+message Reward {
+    string item_id = 1;
+    int32 amount = 2;
 }
