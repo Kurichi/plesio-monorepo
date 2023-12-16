@@ -14,7 +14,6 @@ type inventoryRepositoryImpl struct {
 }
 
 func NewInventoryRepository(db *database.DB) domain.InventoryRepository {
-	Migrate(db)
 	return &inventoryRepositoryImpl{db: db}
 }
 
