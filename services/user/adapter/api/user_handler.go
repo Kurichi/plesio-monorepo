@@ -2,7 +2,6 @@ package api
 
 import (
 	"context"
-	"log"
 
 	"github.com/Kurichi/plesio-monorepo/services/user/application"
 	userpb "github.com/Kurichi/plesio-monorepo/services/user/pkg/grpc"
@@ -36,7 +35,6 @@ func (us *userService) GetUsers(ctx context.Context, req *userpb.GetUsersRequest
 		return nil, err
 	}
 
-	log.Println("users", users)
 	return &userpb.GetUsersResponse{
 		Users: application.ConvertUsersDTOToProtoUsers(users),
 	}, nil

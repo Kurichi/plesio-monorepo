@@ -71,8 +71,6 @@ func (uc *userUsecase) GetUsersByIDs(ctx context.Context, userIDs []string) ([]*
 		return nil, err
 	}
 
-	// log.Println("users usecase", users[0])
-
 	dtoUsers := make([]*UserDTO, 0, len(users))
 	for _, user := range users {
 		dtoUsers = append(dtoUsers, NewUserFromEntity(user))
