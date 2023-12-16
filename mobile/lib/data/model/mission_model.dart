@@ -7,6 +7,8 @@ part 'mission_model.g.dart';
 
 @freezed
 class MissionModel with _$MissionModel {
+  const MissionModel._();
+
   const factory MissionModel({
     required String id,
     required String description,

@@ -176,7 +176,7 @@ class __$$MissionModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$MissionModelImpl implements _MissionModel {
+class _$MissionModelImpl extends _MissionModel {
   const _$MissionModelImpl(
       {required this.id,
       required this.description,
@@ -185,7 +185,8 @@ class _$MissionModelImpl implements _MissionModel {
       required this.amount,
       required this.unit,
       required final List<ItemModel> rewards})
-      : _rewards = rewards;
+      : _rewards = rewards,
+        super._();
 
   factory _$MissionModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$MissionModelImplFromJson(json);
@@ -249,7 +250,7 @@ class _$MissionModelImpl implements _MissionModel {
   }
 }
 
-abstract class _MissionModel implements MissionModel {
+abstract class _MissionModel extends MissionModel {
   const factory _MissionModel(
       {required final String id,
       required final String description,
@@ -258,6 +259,7 @@ abstract class _MissionModel implements MissionModel {
       required final int amount,
       required final String unit,
       required final List<ItemModel> rewards}) = _$MissionModelImpl;
+  const _MissionModel._() : super._();
 
   factory _MissionModel.fromJson(Map<String, dynamic> json) =
       _$MissionModelImpl.fromJson;
