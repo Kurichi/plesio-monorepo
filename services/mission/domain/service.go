@@ -2,6 +2,7 @@ package domain
 
 import (
 	"context"
+	"errors"
 	"time"
 )
 
@@ -25,6 +26,10 @@ func (svc *missionService) GenerateDailyUserMission(ctx context.Context, userID 
 	missions, err := svc.repo.GetRandomMissions(ctx, 5, Filter{Term: TermDaily})
 	if err != nil {
 		return nil, err
+	}
+
+	if len(missions) == 0 {
+		return nil, errors.New("mission is not exist")
 	}
 
 	// 次の日の0時までのunix時間を取得

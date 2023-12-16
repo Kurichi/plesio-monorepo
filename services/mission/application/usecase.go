@@ -3,5 +3,6 @@ package application
 import "context"
 
 type MissionUsecase interface {
-	GetMyDailyMissions(ctx context.Context, userID string) ([]*UserMissionDTO, error)
+	GetMissions(ctx context.Context, userID string, Term *string) ([]*UserMissionDTO, error)
+	ProgressMission(ctx context.Context, userID string, missionID string, progress int) (*UserMissionDTO, error)
 }
