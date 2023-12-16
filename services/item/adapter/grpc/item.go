@@ -20,6 +20,21 @@ func NewItemController(usecase application.ItemUsecase) itempb.ItemServiceServer
 	}
 }
 
+// CreateItem implements grpc.ItemServiceServer.
+func (ctrl *itemController) CreateItem(ctx context.Context, req *itempb.CreateItemRequest) (*itempb.CreateItemResponse, error) {
+	item, err := ctrl.usecase.CreateItem(ctx, req.Name, req.Description, req.Target, int(req.Amount))
+	if err != nil {
+		return nil, err
+	}
+	return &itempb.CreateItemResponse{
+		Item: &itempb.Item{
+			Id:          item.ID,
+			Name:        item.Name,
+			Description: item.Description,
+		},
+	}, nil
+}
+
 // GetMyInventory implements grpc.ItemServiceServer.
 func (ctrl *itemController) GetMyInventory(ctx context.Context, req *itempb.GetMyInventoryRequest) (*itempb.GetMyInventoryResponse, error) {
 	inv, err := ctrl.usecase.GetMyInventory(ctx, req.GetUserId())

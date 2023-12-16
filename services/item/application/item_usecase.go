@@ -2,6 +2,7 @@ package application
 
 import (
 	"context"
+	"errors"
 
 	"github.com/Kurichi/plesio-monorepo/services/item/domain"
 )
@@ -22,6 +23,17 @@ func NewItemUsecase(
 		invRepo:  invRepo,
 		svc:      svc,
 	}
+}
+
+// CreateItem implements ItemUsecase.
+func (uc *itemUsecase) CreateItem(ctx context.Context, name string, description string, target string, amount int) (*ItemDTO, error) {
+	formattedTarget := domain.Target(target)
+	if !formattedTarget.IsValid() {
+		return nil, errors.New("target is invalid")
+	}
+	item := domain.NewItem(name, description, formattedTarget, amount)
+	uc.itemRepo.StoreItem(ctx, item)
+	return NewItemFromEntity(item), nil
 }
 
 // GetMyInventory implements ItemUsecase.
