@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:kiikuten/firebase_options.dart';
-import 'package:kiikuten/presentation/page/home/home.dart';
+import 'package:kiikuten/presentation/page/auth/auth.dart';
 
 Future<void> main() async {
   await Firebase.initializeApp(
@@ -30,7 +30,7 @@ class KiikutenApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomeScreen(title: 'Flutter Demo Home Page'),
+      home: const KiikutenAuth(),
     );
   }
 }
