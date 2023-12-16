@@ -8,6 +8,7 @@ class SettingItem extends StatelessWidget {
     required this.label,
     this.value,
     this.description,
+    this.isError = false,
   });
 
   final void Function()? navigate;
@@ -15,6 +16,7 @@ class SettingItem extends StatelessWidget {
   final String label;
   final String? value;
   final String? description;
+  final bool isError;
 
   @override
   Widget build(BuildContext context) {
@@ -37,30 +39,40 @@ class SettingItem extends StatelessWidget {
                       if (icon != null) ...[
                         Icon(
                           icon,
-                          color: navigate != null && value == null
+                          color: isError
                               ? Theme.of(context)
                                   .colorScheme
-                                  .primary
+                                  .error
                                   .withOpacity(0.7)
-                              : Theme.of(context)
-                                  .colorScheme
-                                  .onBackground
-                                  .withOpacity(0.4),
+                              : navigate != null && value == null
+                                  ? Theme.of(context)
+                                      .colorScheme
+                                      .primary
+                                      .withOpacity(0.7)
+                                  : Theme.of(context)
+                                      .colorScheme
+                                      .onBackground
+                                      .withOpacity(0.4),
                         ),
                         const SizedBox(width: 8),
                       ],
                       Text(
                         label,
-                        style: navigate != null && value == null
+                        style: isError
                             ? TextStyle(
-                                color: Theme.of(context).colorScheme.primary,
+                                color: Theme.of(context).colorScheme.error,
                               )
-                            : TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onBackground
-                                    .withOpacity(0.6),
-                              ),
+                            : navigate != null && value == null
+                                ? TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  )
+                                : TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground
+                                        .withOpacity(0.6),
+                                  ),
                       ),
                     ],
                   ),
