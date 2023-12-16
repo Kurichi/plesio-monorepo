@@ -100,12 +100,14 @@ services:
     volumes:
       - ./user:/src
       - ./service-account.json:/src/service-account.json
+      - ./firebase-auth.json:/src/firebase-auth.json
     expose:
       - ${USER_PORT}
     env_file:
       - .env
     environment:
       - PORT=${USER_PORT}
+      - FIREBASE_AUTH_CREDENTIALS=/src/firebase-auth.json
     depends_on:
       db:
         condition: service_healthy

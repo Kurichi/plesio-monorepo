@@ -8,6 +8,7 @@ import (
 
 	"github.com/Kurichi/plesio-monorepo/services/user/pkg/config"
 	"github.com/Kurichi/plesio-monorepo/services/user/register"
+	"google.golang.org/grpc/reflection"
 )
 
 func main() {
@@ -18,6 +19,7 @@ func main() {
 	}
 
 	s := register.New()
+	reflection.Register(s)
 
 	go func() {
 		log.Printf("start gRPC server! port: %v", cfg.Port)
