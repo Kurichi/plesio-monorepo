@@ -32,6 +32,8 @@ spec:
           value: "plesio-407208"
         - name: TOPIC_NAME
           value: "act_to_tree-subscription"
+        - name: ITEM_TOPIC_ID
+          value: give_item-topic
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /var/secrets/google/key.json
         envFrom:
