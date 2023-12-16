@@ -33,7 +33,6 @@ class KiikutenApp extends StatelessWidget {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF166718),
-          background: const Color(0xFF166718),
         ),
         textTheme: kIsWeb
             ? GoogleFonts.dotGothic16TextTheme(Theme.of(context).textTheme)
