@@ -5,3 +5,4 @@ tmp/
 go.work
 go.work.sum
 service-account.json
+firebase-auth.json
