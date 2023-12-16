@@ -99,7 +99,7 @@ func (mc *MissionClient) ProgressMission(c echo.Context) error {
 	}
 
 	ctx := c.Request().Context()
-	_, err := mc.mClient.ProggressMission(ctx, req)
+	_, err := mc.mClient.ProgressMission(ctx, req)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
