@@ -13,6 +13,7 @@ type treeRepositoryImpl struct {
 }
 
 func NewTreeRepository(db *database.DB) domain.TreeRepository {
+	Migrate(db)
 	return &treeRepositoryImpl{db: db}
 }
 
