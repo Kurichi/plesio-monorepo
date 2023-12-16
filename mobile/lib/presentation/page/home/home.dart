@@ -10,9 +10,16 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(
-          '木育展',
-          style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.park_outlined),
+            const SizedBox(width: 8),
+            Text(
+              '木育展',
+              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            ),
+          ],
         ),
         actions: [
           IconButton(
