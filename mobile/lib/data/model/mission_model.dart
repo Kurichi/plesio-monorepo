@@ -35,3 +35,27 @@ class MissionModel with _$MissionModel {
     );
   }
 }
+
+@freezed
+class UserMissionModel with _$UserMissionModel {
+  const UserMissionModel._();
+
+  const factory UserMissionModel({
+    required String userId,
+    required MissionModel mission,
+    required int progress,
+    required int deadline,
+  }) = _UserMissionModel;
+
+  factory UserMissionModel.fromJson(Map<String, dynamic> json) =>
+      _$UserMissionModelFromJson(json);
+
+  UserMission toEntity() {
+    return UserMission(
+      userId: userId,
+      mission: mission.toEntity(),
+      progress: progress,
+      deadline: deadline,
+    );
+  }
+}
