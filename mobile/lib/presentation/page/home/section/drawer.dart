@@ -11,12 +11,35 @@ class KiikutenDrawer extends StatelessWidget {
       child: ListView(
         children: [
           ListTile(
-            title: const Text('木育展'),
-            onTap: () {
-              Navigator.pop(context);
-            },
+            title: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: const Icon(Icons.menu_open),
+                  padding: const EdgeInsets.all(16),
+                ),
+                const Expanded(
+                  child: Center(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.park_outlined),
+                        SizedBox(width: 8),
+                        Text('木育展'),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 64),
+              ],
+            ),
+            contentPadding: EdgeInsets.zero,
           ),
           ListTile(
+            leading: const Icon(Icons.settings),
             title: const Text('設定'),
             onTap: () {
               Navigator.pop(context);
@@ -28,6 +51,7 @@ class KiikutenDrawer extends StatelessWidget {
             },
           ),
           ListTile(
+            leading: const Icon(Icons.logout),
             title: const Text('ログアウト'),
             onTap: () {
               Navigator.pop(context);
