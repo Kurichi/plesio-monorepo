@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kiikuten/presentation/designsystem/component/kiikuten_avatar.dart';
 import 'package:kiikuten/presentation/page/home/section/drawer.dart';
+import 'package:kiikuten/presentation/page/settings/settings_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -24,8 +25,17 @@ class HomeScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: const KiikutenAvatar(),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const SettingsScreen(),
+                ),
+              );
+            },
+            icon: const Hero(
+              tag: 'avatar',
+              child: KiikutenAvatar(),
+            ),
           ),
         ],
       ),
