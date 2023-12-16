@@ -3,6 +3,11 @@ option go_package = "pkg/grpc";
 package user;
 
 service UserService {
+    rpc SignUp(SignUpRequest) returns (SignUpResponse) {}
+    rpc SignIn(SignInRequest) returns (SignInResponse) {}
+    rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {}
+    rpc GetUser(GetUserRequest) returns (GetUserResponse) {}
+    rpc GetUsers(GetUsersRequest) returns (GetUsersResponse) {}
 }
 
 message User {
@@ -27,8 +32,9 @@ message SignInResponse {
 }
 
 message UpdateUserRequest {
-  string name = 1;
-  string avatar = 2;
+  string id = 1;
+  string name = 2;
+  string avatar = 3;
 }
 message UpdateUserResponse {
     User user = 1;
