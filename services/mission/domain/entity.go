@@ -20,3 +20,7 @@ type UserMission struct {
 func (m *UserMission) IsCompleted() bool {
 	return m.Progress >= m.Mission.Amount
 }
+
+func (m *UserMission) UpdateProgress(progress int) {
+	m.Progress = progress
+}

@@ -47,6 +47,14 @@ func (m *mission) ConvertToEntity() *domain.Mission {
 	}
 }
 
+func ConvertMissionsToEntity(missions []mission) []*domain.Mission {
+	domainMissions := make([]*domain.Mission, 0, len(missions))
+	for _, mission := range missions {
+		domainMissions = append(domainMissions, mission.ConvertToEntity())
+	}
+	return domainMissions
+}
+
 func (m *mission) convertRewardsToEntity() []*domain.Reward {
 	rewards := make([]*domain.Reward, len(m.Rewards))
 	for i, r := range m.Rewards {
@@ -71,3 +79,46 @@ func (um *userMission) ConvertToEntity() *domain.UserMission {
 	}
 }
 
+func ConvertUserMissionsToEntity(userMissions []userMission) []*domain.UserMission {
+	domainUserMissions := make([]*domain.UserMission, 0, len(userMissions))
+	for _, userMission := range userMissions {
+		domainUserMissions = append(domainUserMissions, userMission.ConvertToEntity())
+	}
+	return domainUserMissions
+}
+
+func ConvertRewardFromEntity(r *domain.Reward, missionID string) *reward {
+	return &reward{
+		MissionID: missionID,
+		ItemID:    r.ItemID,
+		Amount:    r.Amount,
+	}
+}
+
+func ConvertRewardsFromEntity(r []*domain.Reward, missionID string) []*reward {
+	rewards := make([]*reward, 0, len(r))
+	for _, reward := range r {
+		rewards = append(rewards, ConvertRewardFromEntity(reward, missionID))
+	}
+	return rewards
+}
+
+func ConvertMissionFromEntity(m *domain.Mission) *mission {
+	return &mission{
+		ID:          m.ID,
+		Description: m.Description,
+		Term:        m.Term,
+		Target:      m.Target,
+		Amount:      m.Amount,
+		Unit:        m.Unit,
+		Rewards:     ConvertRewardsFromEntity(m.Rewards, m.ID),
+	}
+}
+
+func ConvertMissionsFromEntity(m []*domain.Mission) []*mission {
+	missions := make([]*mission, 0, len(m))
+	for _, mission := range m {
+		missions = append(missions, ConvertMissionFromEntity(mission))
+	}
+	return missions
+}

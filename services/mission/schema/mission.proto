@@ -4,7 +4,7 @@ package mission;
 
 service MissionService {
     rpc GetMissions(GetMissionsRequest) returns (GetMissionsResponse) {}
-    rpc ProggressMission(ProgressMissionRequest) returns (ProgressMissionResponse) {}
+    rpc ProgressMission(ProgressMissionRequest) returns (ProgressMissionResponse) {}
 }
 
 message GetMissionsRequest {
@@ -19,6 +19,7 @@ message GetMissionsResponse {
 message ProgressMissionRequest {
     string user_id = 1;
     string mission_id = 2;
+    int32 progress = 3;
 }
 
 message ProgressMissionResponse {
@@ -29,13 +30,13 @@ message ProgressMissionResponse {
 message Mission {
     string id = 1;
     string description = 2;
-    int32 target = 3;
+    string target = 3;
     int32 amount = 4;
     string unit = 5;
     string term = 6;
     repeated Reward rewards = 7;
     uint32 progress = 8;
-    uint32 deadline = 9;
+    int64 deadline = 9;
 }
 
 message Reward {

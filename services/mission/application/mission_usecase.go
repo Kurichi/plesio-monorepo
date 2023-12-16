@@ -9,6 +9,7 @@ import (
 type missionUsecase struct {
 	repo domain.MissionRepository
 	svc  domain.MissionService
+	tx   domain.TxRepository
 }
 
 func NewMissionUsecase(repo domain.MissionRepository, svc domain.MissionService) MissionUsecase {
@@ -19,8 +20,14 @@ func NewMissionUsecase(repo domain.MissionRepository, svc domain.MissionService)
 }
 
 // GetMyMissions implements MissionUsecase.
-func (uc *missionUsecase) GetMyDailyMissions(ctx context.Context, userID string) ([]*UserMissionDTO, error) {
-	dailyMissions, err := uc.repo.GetUserMissions(ctx, userID, domain.Filter{Term: domain.TermDaily})
+func (uc *missionUsecase) GetMissions(ctx context.Context, userID string, term *string) ([]*UserMissionDTO, error) {
+	var filter domain.Filter
+	if *term == "daily" {
+		filter.Term = domain.TermDaily
+	} else if *term == "weekly" {
+		filter.Term = domain.TermDaily
+	}
+	dailyMissions, err := uc.repo.GetUserMissions(ctx, userID, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -36,4 +43,24 @@ func (uc *missionUsecase) GetMyDailyMissions(ctx context.Context, userID string)
 	}
 
 	return NewUserMissionsFromEntity(missions), nil
+}
+
+func (uc *missionUsecase) ProgressMission(ctx context.Context, userID string, missionID string, progress int) (*UserMissionDTO, error) {
+	var userMission *domain.UserMission
+	err := uc.tx.DoInTx(ctx, func(ctx context.Context) error {
+		var err error
+		userMission, err = uc.repo.GetUserMissionByID(ctx, userID, missionID)
+		if err != nil {
+			return err
+		}
+		userMission.UpdateProgress(progress)
+		if err = uc.repo.UpdateUserMission(ctx, userID, userMission); err != nil {
+			return err
+		}
+		return nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	return NewUserMissionFromEntity(userMission, userMission.IsCompleted()), nil
 }

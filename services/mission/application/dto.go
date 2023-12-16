@@ -19,8 +19,10 @@ type (
 	}
 
 	UserMissionDTO struct {
-		Mission  *MissionDTO
-		Progress int
+		*MissionDTO
+		Progress    int
+		Deadline    int64
+		IsCompleted bool
 	}
 )
 
@@ -51,10 +53,12 @@ func NewRewardFromEntity(e *domain.Reward) *RewardDTO {
 	}
 }
 
-func NewUserMissionFromEntity(e *domain.UserMission) *UserMissionDTO {
+func NewUserMissionFromEntity(e *domain.UserMission, isCompleted bool) *UserMissionDTO {
 	return &UserMissionDTO{
-		Mission:  NewMissionFromEntity(e.Mission),
-		Progress: e.Progress,
+		MissionDTO:  NewMissionFromEntity(e.Mission),
+		Progress:    e.Progress,
+		Deadline:    e.Deadline,
+		IsCompleted: isCompleted,
 	}
 }
 
@@ -62,7 +66,7 @@ func NewUserMissionsFromEntity(e []*domain.UserMission) []*UserMissionDTO {
 	userMissions := make([]*UserMissionDTO, 0, len(e))
 
 	for _, item := range e {
-		userMissions = append(userMissions, NewUserMissionFromEntity(item))
+		userMissions = append(userMissions, NewUserMissionFromEntity(item, item.IsCompleted()))
 	}
 
 	return userMissions
