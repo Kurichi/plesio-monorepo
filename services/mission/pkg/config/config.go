@@ -29,3 +29,15 @@ func NewDBConfig() *DBConfig {
 		DBName:   os.Getenv("DB_NAME"),
 	}
 }
+
+type PusherConfig struct {
+	ProjectID string
+	TopicID   string
+}
+
+func NewPusherConfig() *PusherConfig {
+	return &PusherConfig{
+		ProjectID: os.Getenv("PROJECT_ID"),
+		TopicID:   os.Getenv("ITEM_TOPIC_ID"),
+	}
+}

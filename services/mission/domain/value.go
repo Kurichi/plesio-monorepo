@@ -5,7 +5,10 @@ type (
 		ItemID string
 		Amount int
 	}
-
+	CompleteMissionEvent struct {
+		UserID  string
+		Rewards []*Reward
+	}
 	Term uint
 )
 

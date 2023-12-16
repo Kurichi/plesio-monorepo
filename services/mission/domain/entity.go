@@ -17,8 +17,15 @@ type UserMission struct {
 	Deadline int64
 }
 
-func (m *UserMission) IsCompleted() bool {
-	return m.Progress >= m.Mission.Amount
+func (m *UserMission) IsCompleted() (bool, *CompleteMissionEvent) {
+	if m.Progress >= m.Mission.Amount {
+		return true, &CompleteMissionEvent{
+			UserID:  m.UserID,
+			Rewards: m.Mission.Rewards,
+		}
+	}
+
+	return false, nil
 }
 
 func (m *UserMission) UpdateProgress(progress int) {
