@@ -22,6 +22,11 @@ jobs:
           channel: "stable"
           cache: true
 
+      - name: Create .env file
+        run: |
+          touch .env
+          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
+
       - name: Doctor
         run: flutter doctor -v
 
@@ -30,6 +35,7 @@ jobs:
 
       - name: Build for the web
         run: flutter build web --release
+        # run: flutter build web --web-renderer html --release
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
@@ -37,5 +43,3 @@ jobs:
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_KIIKUTEN }}"
           channelId: live
           projectId: kiikuten
-        env:
-          BASE_URL: ${{ secrets.BASE_URL }}
