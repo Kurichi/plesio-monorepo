@@ -15,6 +15,11 @@ type ItemWithQuantityDTO struct {
 	Quantity    int
 }
 
+type RewqrdDTO struct {
+	ItemID string
+	Amount int
+}
+
 func NewItemFromEntity(item *domain.Item) *ItemDTO {
 	return &ItemDTO{
 		ID:          item.ID.String(),

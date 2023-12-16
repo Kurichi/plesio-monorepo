@@ -11,17 +11,20 @@ type itemUsecase struct {
 	itemRepo domain.ItemRepository
 	invRepo  domain.InventoryRepository
 	svc      domain.ItemService
+	tx       domain.TxRepository
 }
 
 func NewItemUsecase(
 	itemRepo domain.ItemRepository,
 	invRepo domain.InventoryRepository,
 	svc domain.ItemService,
+	tx domain.TxRepository,
 ) ItemUsecase {
 	return &itemUsecase{
 		itemRepo: itemRepo,
 		invRepo:  invRepo,
 		svc:      svc,
+		tx:       tx,
 	}
 }
 
@@ -65,8 +68,32 @@ func (uc *itemUsecase) UseItem(ctx context.Context, userID string, itemID string
 }
 
 // GetItem implements ItemUsecase.
-func (uc *itemUsecase) GetItem(ctx context.Context, userID string, itemID string) (*ItemDTO, error) {
-	panic("unimplemented")
+func (uc *itemUsecase) AddItem(ctx context.Context, userID string, rewards []*RewqrdDTO) error {
+	err := uc.tx.DoInTx(ctx, func(ctx context.Context) error {
+		inv, err := uc.invRepo.GetByUserID(ctx, userID)
+		if err != nil {
+			return err
+		}
+
+		for _, r := range rewards {
+			item := &domain.ItemWithQuantity{
+				Item:     &domain.Item{ID: domain.NewItemIDFromString(r.ItemID)},
+				Quantity: r.Amount,
+			}
+			inv.AddItem(item)
+		}
+
+		if err := uc.invRepo.Update(ctx, inv); err != nil {
+			return err
+		}
+
+		return nil
+	})
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // GetItems implements ItemUsecase.

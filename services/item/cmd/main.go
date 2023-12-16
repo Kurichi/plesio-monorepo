@@ -17,12 +17,18 @@ func main() {
 		panic(err)
 	}
 
-	s := register.New()
-
+	server := register.New()
+	s := server.Server
 	go func() {
 		log.Printf("start gRPC server!! port: %v", cfg.Port)
 		if err := s.Serve(listener); err != nil {
-			panic(err)
+			log.Fatal(err)
+		}
+	}()
+	pb := server.Subscriber
+	go func() {
+		if err := pb.Serve(); err != nil {
+			log.Fatal(err)
 		}
 	}()
 

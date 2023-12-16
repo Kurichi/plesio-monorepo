@@ -30,8 +30,8 @@ spec:
           value: "50051"
         - name: PROJECT_ID
           value: "plesio-407208"
-        - name: TOPIC_NAME
-          value: "act_to_tree-subscription"
+        - name: ITEM_SUB_ID
+          value: "give_item-subscription"
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /var/secrets/google/key.json
         envFrom:

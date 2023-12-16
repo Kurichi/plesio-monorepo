@@ -14,3 +14,7 @@ type InventoryRepository interface {
 	UpdateOneItem(ctx context.Context, userID string, item *ItemWithQuantity) error
 	DeleteOneItem(ctx context.Context, userID string, itemID string) error
 }
+
+type TxRepository interface {
+	DoInTx(ctx context.Context, fn func(ctx context.Context) error) error
+}
