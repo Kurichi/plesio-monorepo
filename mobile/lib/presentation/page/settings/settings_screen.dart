@@ -139,7 +139,13 @@ class SettingsScreen extends StatelessWidget {
                       label: 'プライバシーポリシー',
                     ),
                     SettingItem(
-                      navigate: () {},
+                      navigate: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const LicensePage(),
+                          ),
+                        );
+                      },
                       icon: Icons.balance,
                       label: 'ライセンス',
                     ),
