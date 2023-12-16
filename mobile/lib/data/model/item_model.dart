@@ -1,31 +1,20 @@
-class ItemModel {
-  final String id;
-  final String name;
-  final String description;
-  final int growthEffect;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  ItemModel({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.growthEffect,
-  });
+part 'item_model.freezed.dart';
 
-  factory ItemModel.fromJson(Map<String, dynamic> json) {
-    return ItemModel(
-      id: json['id'],
-      name: json['name'],
-      description: json['description'],
-      growthEffect: json['growthEffect'],
-    );
-  }
+part 'item_model.g.dart';
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'description': description,
-      'growthEffect': growthEffect,
-    };
-  }
+@freezed
+class ItemModel with _$ItemModel {
+  const ItemModel._();
+
+  const factory ItemModel({
+    required String id,
+    required String name,
+    required String description,
+    required int growthEffect,
+  }) = _ItemModel;
+
+  factory ItemModel.fromJson(Map<String, dynamic> json) =>
+      _$ItemModelFromJson(json);
 }
