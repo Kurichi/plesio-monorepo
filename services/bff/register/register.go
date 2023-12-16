@@ -29,8 +29,7 @@ func Register(
 			echo.HeaderContentType,
 			echo.HeaderAccept,
 			echo.HeaderAuthorization},
-	}),
-	)
+	}))
 
 	router.DefineUserRouter(g, userHandler, authHandler)
 	router.DefineTreeRouter(g, treeHandler, authHandler)

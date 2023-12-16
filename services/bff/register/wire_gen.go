@@ -12,6 +12,7 @@ import (
 	"github.com/Kurichi/plesio-monorepo/services/bff/handler/user"
 	"github.com/Kurichi/plesio-monorepo/services/bff/middleware"
 	"github.com/Kurichi/plesio-monorepo/services/bff/pkg/firebase"
+	grpc3 "github.com/Kurichi/plesio-monorepo/services/item/pkg/grpc"
 	grpc2 "github.com/Kurichi/plesio-monorepo/services/tree/pkg/grpc"
 	"github.com/labstack/echo/v4"
 	"google.golang.org/grpc"
@@ -23,7 +24,8 @@ func New(clientConnInterface grpc.ClientConnInterface) *echo.Echo {
 	treeServiceClient := grpc2.NewTreeServiceClient(clientConnInterface)
 	treeClient := tree.NewTreeClient(treeServiceClient)
 	userClient := user.NewUserClient()
-	itemClient := item.NewItemClient()
+	itemServiceClient := grpc3.NewItemServiceClient(clientConnInterface)
+	itemClient := item.NewItemClient(itemServiceClient)
 	app := firebase.InitializeFirebaseApp()
 	client := firebase.InitializeFBAuthClient(app)
 	authController := middleware.NewAuthController(client)

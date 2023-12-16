@@ -22,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	ItemService_GetMyInventory_FullMethodName = "/item.ItemService/GetMyInventory"
 	ItemService_UseItem_FullMethodName        = "/item.ItemService/UseItem"
+	ItemService_GetItemsByIDs_FullMethodName  = "/item.ItemService/GetItemsByIDs"
 )
 
 // ItemServiceClient is the client API for ItemService service.
@@ -30,6 +31,7 @@ const (
 type ItemServiceClient interface {
 	GetMyInventory(ctx context.Context, in *GetMyInventoryRequest, opts ...grpc.CallOption) (*GetMyInventoryResponse, error)
 	UseItem(ctx context.Context, in *UseItemRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	GetItemsByIDs(ctx context.Context, in *GetItemsByIDsRequest, opts ...grpc.CallOption) (*GetItemsByIDsResponse, error)
 }
 
 type itemServiceClient struct {
@@ -58,12 +60,22 @@ func (c *itemServiceClient) UseItem(ctx context.Context, in *UseItemRequest, opt
 	return out, nil
 }
 
+func (c *itemServiceClient) GetItemsByIDs(ctx context.Context, in *GetItemsByIDsRequest, opts ...grpc.CallOption) (*GetItemsByIDsResponse, error) {
+	out := new(GetItemsByIDsResponse)
+	err := c.cc.Invoke(ctx, ItemService_GetItemsByIDs_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ItemServiceServer is the server API for ItemService service.
 // All implementations must embed UnimplementedItemServiceServer
 // for forward compatibility
 type ItemServiceServer interface {
 	GetMyInventory(context.Context, *GetMyInventoryRequest) (*GetMyInventoryResponse, error)
 	UseItem(context.Context, *UseItemRequest) (*emptypb.Empty, error)
+	GetItemsByIDs(context.Context, *GetItemsByIDsRequest) (*GetItemsByIDsResponse, error)
 	mustEmbedUnimplementedItemServiceServer()
 }
 
@@ -76,6 +88,9 @@ func (UnimplementedItemServiceServer) GetMyInventory(context.Context, *GetMyInve
 }
 func (UnimplementedItemServiceServer) UseItem(context.Context, *UseItemRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UseItem not implemented")
+}
+func (UnimplementedItemServiceServer) GetItemsByIDs(context.Context, *GetItemsByIDsRequest) (*GetItemsByIDsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetItemsByIDs not implemented")
 }
 func (UnimplementedItemServiceServer) mustEmbedUnimplementedItemServiceServer() {}
 
@@ -126,6 +141,24 @@ func _ItemService_UseItem_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ItemService_GetItemsByIDs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetItemsByIDsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ItemServiceServer).GetItemsByIDs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ItemService_GetItemsByIDs_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ItemServiceServer).GetItemsByIDs(ctx, req.(*GetItemsByIDsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ItemService_ServiceDesc is the grpc.ServiceDesc for ItemService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -140,6 +173,10 @@ var ItemService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UseItem",
 			Handler:    _ItemService_UseItem_Handler,
+		},
+		{
+			MethodName: "GetItemsByIDs",
+			Handler:    _ItemService_GetItemsByIDs_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

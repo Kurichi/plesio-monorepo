@@ -19,4 +19,16 @@ class MissionDataSource {
       throw Exception('Failed to load missions');
     }
   }
+
+  Future<UserMissionModel> getUserMission(String userId) async {
+    final response =
+        await http.get(Uri.parse('$baseUrl/users/$userId/mission'));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      return UserMissionModel.fromJson(jsonResponse);
+    } else {
+      throw Exception('Failed to load user mission');
+    }
+  }
 }

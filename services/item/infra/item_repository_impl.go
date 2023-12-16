@@ -51,6 +51,28 @@ func (repo *itemRepository) GetByID(ctx context.Context, id domain.ItemID) (*dom
 }
 
 // GetByIDs implements domain.ItemRepository.
-func (*itemRepository) GetByIDs(ctx context.Context, id domain.ItemID) ([]*domain.Item, error) {
-	panic("unimplemented")
+func (repo *itemRepository) GetByIDs(ctx context.Context, id []domain.ItemID) ([]*domain.Item, error) {
+	tx, err := database.GetTxByContext(ctx)
+	var query *bun.SelectQuery
+	if err == nil {
+		query = tx.NewSelect()
+	} else {
+		query = repo.db.NewSelect()
+	}
+
+	var items []item
+	err = query.
+		Model(&items).
+		Where("? IN (?)", bun.Ident("id"), id).
+		Scan(ctx)
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+
+	entities := make([]*domain.Item, 0, len(items))
+	for _, i := range items {
+		entities = append(entities, i.ConvertToEntity())
+	}
+
+	return entities, nil
 }

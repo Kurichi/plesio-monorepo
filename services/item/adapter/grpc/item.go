@@ -50,3 +50,24 @@ func (ctrl *itemController) UseItem(ctx context.Context, req *itempb.UseItemRequ
 
 	return &emptypb.Empty{}, nil
 }
+
+// GetItemsByIDs implements grpc.ItemServiceServer.
+func (ctrl *itemController) GetItemsByIDs(ctx context.Context, req *itempb.GetItemsByIDsRequest) (*itempb.GetItemsByIDsResponse, error) {
+	dto, err := ctrl.usecase.GetItems(ctx, req.GetItemIds())
+	if err != nil {
+		return nil, err
+	}
+
+	items := make([]*itempb.Item, 0, len(dto))
+	for _, i := range dto {
+		items = append(items, &itempb.Item{
+			Id:          i.ID,
+			Name:        i.Name,
+			Description: i.Description,
+		})
+	}
+
+	return &itempb.GetItemsByIDsResponse{
+		Items: items,
+	}, nil
+}

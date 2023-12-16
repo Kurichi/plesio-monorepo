@@ -25,15 +25,15 @@ func NewItemUsecase(
 }
 
 // GetMyInventory implements ItemUsecase.
-func (uc *itemUsecase) GetMyInventory(ctx context.Context, userID string) ([]*ItemDTO, error) {
+func (uc *itemUsecase) GetMyInventory(ctx context.Context, userID string) ([]*ItemWithQuantityDTO, error) {
 	inv, err := uc.invRepo.GetByUserID(ctx, userID)
 	if err != nil {
 		return nil, err
 	}
 
-	items := make([]*ItemDTO, 0, len(inv.Items))
+	items := make([]*ItemWithQuantityDTO, 0, len(inv.Items))
 	for _, i := range inv.Items {
-		items = append(items, NewItemFromEntity(i))
+		items = append(items, NewItemWithQuantityFromEntity(i))
 	}
 
 	return items, nil
@@ -55,4 +55,23 @@ func (uc *itemUsecase) UseItem(ctx context.Context, userID string, itemID string
 // GetItem implements ItemUsecase.
 func (uc *itemUsecase) GetItem(ctx context.Context, userID string, itemID string) (*ItemDTO, error) {
 	panic("unimplemented")
+}
+
+// GetItems implements ItemUsecase.
+func (uc *itemUsecase) GetItems(ctx context.Context, itemIDs []string) ([]*ItemDTO, error) {
+	ids := make([]domain.ItemID, 0, len(itemIDs))
+	for _, id := range itemIDs {
+		ids = append(ids, domain.NewItemIDFromString(id))
+	}
+	items, err := uc.itemRepo.GetByIDs(ctx, ids)
+	if err != nil {
+		return nil, err
+	}
+
+	res := make([]*ItemDTO, 0, len(items))
+	for _, i := range items {
+		res = append(res, NewItemFromEntity(i))
+	}
+
+	return res, nil
 }

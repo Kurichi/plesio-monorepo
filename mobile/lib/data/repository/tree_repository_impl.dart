@@ -1,13 +1,16 @@
+import 'package:kiikuten/data/datasource/tree_datasource.dart';
 import 'package:kiikuten/domain/entity/tree.dart';
 import 'package:kiikuten/domain/repository/tree_repository.dart';
 
 class TreeRepositoryImpl implements TreeRepository {
+  final TreeDataSource _treeDataSource;
+
+  TreeRepositoryImpl(this._treeDataSource);
+
   @override
   Future<Tree> getTree(String treeId) async {
-    return Tree(
-      id: '1',
-      growthLevel: 1,
-    );
+    final treeModel = await _treeDataSource.getTree(treeId);
+    return treeModel.toEntity();
   }
 
   @override
