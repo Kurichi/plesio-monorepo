@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:kiikuten/presentation/designsystem/component/kiikuten_avatar.dart';
 import 'package:kiikuten/presentation/page/settings/settings_screen.dart';
 
 class KiikutenDrawer extends StatelessWidget {
@@ -39,7 +40,7 @@ class KiikutenDrawer extends StatelessWidget {
             contentPadding: EdgeInsets.zero,
           ),
           ListTile(
-            leading: const Icon(Icons.settings),
+            leading: const KiikutenAvatar(size: 24),
             title: const Text('設定'),
             onTap: () {
               Navigator.pop(context);
@@ -51,8 +52,12 @@ class KiikutenDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.logout),
-            title: const Text('ログアウト'),
+            leading:
+                Icon(Icons.logout, color: Theme.of(context).colorScheme.error),
+            title: Text(
+              'ログアウト',
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            ),
             onTap: () {
               Navigator.pop(context);
               FirebaseAuth.instance.signOut();
