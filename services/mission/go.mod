@@ -3,7 +3,6 @@ module github.com/Kurichi/plesio-monorepo/services/mission
 go 1.21.5
 
 require (
-	github.com/Kurichi/plesio-monorepo/services/item v0.0.0-20231216163816-78dd41754b1f
 	github.com/google/wire v0.5.0
 	github.com/pkg/errors v0.9.1
 	github.com/uptrace/bun v1.1.16
