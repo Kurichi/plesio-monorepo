@@ -62,7 +62,6 @@ func (mc *MissionClient) GetMissions(c echo.Context) error {
 			ID:          item.Id,
 			Name:        item.Name,
 			Description: item.Description,
-			Image:       item.Image,
 		}
 	}
 

@@ -38,7 +38,6 @@ func (ic *ItemClient) GetItemsHandler(c echo.Context) error {
 			ID:          item.Id,
 			Name:        item.Name,
 			Description: item.Description,
-			Image:       item.Image,
 			Quantity:    item.Quantity,
 		})
 	}
