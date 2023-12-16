@@ -1,16 +1,20 @@
 package domain
 
-import "github.com/google/uuid"
+type TreeStage int
 
-type TreeID string
+const (
+	TreeStageNothing TreeStage = iota + 1
+	TreeStageSeed
+	TreeStageSprout
+	TreeStageSapling
+	TreeStageMature
+	TreeStageGiantTree
+)
 
-func NewTreeID() TreeID {
-	id := uuid.New()
-	return TreeID(id.String())
+func (ts TreeStage) Int() int {
+	return int(ts)
 }
-func NewTreeIDFromString(s string) TreeID {
-	return TreeID(s)
-}
-func (id TreeID) String() string {
-	return string(id)
+
+func NewTreeStageFromInt(treeStage int) TreeStage {
+	return TreeStage(treeStage)
 }

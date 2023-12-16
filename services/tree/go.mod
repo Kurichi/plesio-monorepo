@@ -3,7 +3,9 @@ module github.com/Kurichi/plesio-monorepo/services/tree
 go 1.21.5
 
 require (
-	github.com/google/uuid v1.4.0
+	github.com/uptrace/bun v1.1.16
+	github.com/uptrace/bun/dialect/pgdialect v1.1.16
+	github.com/uptrace/bun/driver/pgdriver v1.1.16
 	google.golang.org/grpc v1.59.0
 	google.golang.org/protobuf v1.31.0
 )
@@ -17,6 +19,10 @@ require (
 	github.com/google/s2a-go v0.1.7 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.3.2 // indirect
 	github.com/googleapis/gax-go/v2 v2.12.0 // indirect
+	github.com/jinzhu/inflection v1.0.0 // indirect
+	github.com/tmthrgd/go-hex v0.0.0-20190904060850-447a3041c3bc // indirect
+	github.com/vmihailenco/msgpack/v5 v5.3.5 // indirect
+	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	golang.org/x/crypto v0.16.0 // indirect
 	golang.org/x/oauth2 v0.13.0 // indirect
@@ -25,6 +31,7 @@ require (
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/genproto v0.0.0-20231120223509-83a465c0220f // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20231106174013-bbf56f31fb17 // indirect
+	mellium.im/sasl v0.3.1 // indirect
 )
 
 require (

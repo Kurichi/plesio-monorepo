@@ -19,3 +19,7 @@ proto:
 	protoc --go_out=. --go_opt=paths=import \
 		--go-grpc_out=. --go-grpc_opt=paths=import \
 		./schema/*.proto
+
+.PHONY: migrate
+migrate:
+	docker compose exec ${SERVICE} go run migration/migration.go
