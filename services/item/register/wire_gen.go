@@ -14,6 +14,7 @@ import (
 	"github.com/Kurichi/plesio-monorepo/services/item/infra"
 	"github.com/Kurichi/plesio-monorepo/services/item/pkg/config"
 	"github.com/Kurichi/plesio-monorepo/services/item/pkg/database"
+	"github.com/Kurichi/plesio-monorepo/services/item/pkg/treepb"
 )
 
 // Injectors from wire.go:
@@ -24,7 +25,9 @@ func New() *Server {
 	itemRepository := infra.NewItemRepository(db)
 	inventoryRepository := infra.NewInventoryRepository(db)
 	itemService := domain.NewItemService(inventoryRepository)
-	itemUsecase := application.NewItemUsecase(itemRepository, inventoryRepository, itemService, db)
+	treeServiceClient := treepb.New()
+	treeService := infra.NewTreeService(treeServiceClient)
+	itemUsecase := application.NewItemUsecase(itemRepository, inventoryRepository, itemService, db, treeService)
 	itemServiceServer := api.NewItemController(itemUsecase)
 	server := Register(itemServiceServer)
 	itemController := pubsub.NewItemController(itemUsecase)

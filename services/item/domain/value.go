@@ -42,3 +42,9 @@ type ItemUsedEvent struct {
 	Target Target
 	Amount int
 }
+
+type Tree struct {
+	Stage      int
+	Water      int
+	Fertilizer int
+}

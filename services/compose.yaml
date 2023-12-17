@@ -43,6 +43,7 @@ services:
     environment:
       - PORT=${ITEM_PORT}
       - GOOGLE_APPLICATION_CREDENTIALS=/src/service-account.json
+      - TREE_SERVICE_ADDR=${TREE_HOSTNAME}:${TREE_PORT}
     depends_on:
       db:
         condition: service_healthy

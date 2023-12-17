@@ -12,6 +12,7 @@ type itemUsecase struct {
 	invRepo  domain.InventoryRepository
 	svc      domain.ItemService
 	tx       domain.TxRepository
+	treeSvc  domain.TreeService
 }
 
 func NewItemUsecase(
@@ -19,6 +20,7 @@ func NewItemUsecase(
 	invRepo domain.InventoryRepository,
 	svc domain.ItemService,
 	tx domain.TxRepository,
+	treeSvc domain.TreeService,
 ) ItemUsecase {
 	return &itemUsecase{
 		itemRepo: itemRepo,
@@ -55,16 +57,34 @@ func (uc *itemUsecase) GetMyInventory(ctx context.Context, userID string) ([]*It
 }
 
 // UseItem implements ItemUsecase.
-func (uc *itemUsecase) UseItem(ctx context.Context, userID string, itemID string) error {
-	inv, err := uc.invRepo.GetByUserID(ctx, userID)
+func (uc *itemUsecase) UseItem(ctx context.Context, userID string, itemID string) (*TreeDTO, error) {
+	var event *domain.ItemUsedEvent
+	uc.tx.DoInTx(ctx, func(ctx context.Context) error {
+		inv, err := uc.invRepo.GetByUserID(ctx, userID)
+		if err != nil {
+			return err
+		}
+
+		event, err = uc.svc.UseItem(ctx, inv, domain.NewItemIDFromString(itemID))
+		if err != nil {
+			return err
+		}
+
+		return nil
+	})
+
+	tree, err := uc.treeSvc.GrowthEvent(ctx, event)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	if err := uc.svc.UseItem(ctx, inv, domain.NewItemIDFromString(itemID)); err != nil {
-		return err
+	dto := &TreeDTO{
+		Stage:      tree.Stage,
+		Water:      tree.Water,
+		Fertilizer: tree.Fertilizer,
 	}
-	return nil
+
+	return dto, nil
 }
 
 // GetItem implements ItemUsecase.

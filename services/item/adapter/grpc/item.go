@@ -5,7 +5,6 @@ import (
 
 	"github.com/Kurichi/plesio-monorepo/services/item/application"
 	itempb "github.com/Kurichi/plesio-monorepo/services/item/pkg/grpc"
-	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 type itemController struct {
@@ -15,9 +14,10 @@ type itemController struct {
 }
 
 func NewItemController(usecase application.ItemUsecase) itempb.ItemServiceServer {
-	return &itemController{
-		usecase: usecase,
-	}
+	// return &itemController{
+	// 	usecase: usecase,
+	// }
+	return nil
 }
 
 // CreateItem implements grpc.ItemServiceServer.
@@ -58,12 +58,18 @@ func (ctrl *itemController) GetMyInventory(ctx context.Context, req *itempb.GetM
 }
 
 // UseItem implements grpc.ItemServiceServer.
-func (ctrl *itemController) UseItem(ctx context.Context, req *itempb.UseItemRequest) (*emptypb.Empty, error) {
-	if err := ctrl.usecase.UseItem(ctx, req.GetUserId(), req.GetItemId()); err != nil {
+func (ctrl *itemController) UseItem(ctx context.Context, req *itempb.UseItemRequest) (*itempb.UseItemResponse, error) {
+	tree, err := ctrl.usecase.UseItem(ctx, req.GetUserId(), req.GetItemId())
+	if err != nil {
 		return nil, err
 	}
 
-	return &emptypb.Empty{}, nil
+	res := &itempb.UseItemResponse{
+		Stage:       int32(tree.Stage),
+		Water:       int32(tree.Water),
+		Felitilizer: int32(tree.Fertilizer),
+	}
+	return res, nil
 }
 
 // GetItemsByIDs implements grpc.ItemServiceServer.

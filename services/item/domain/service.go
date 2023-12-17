@@ -3,7 +3,7 @@ package domain
 import "context"
 
 type ItemService interface {
-	UseItem(ctx context.Context, inv *Inventory, itemID ItemID) error
+	UseItem(ctx context.Context, inv *Inventory, itemID ItemID) (*ItemUsedEvent, error)
 }
 
 type itemService struct {
@@ -16,26 +16,26 @@ func NewItemService(repo InventoryRepository) ItemService {
 	}
 }
 
-func (svc *itemService) UseItem(ctx context.Context, inv *Inventory, itemID ItemID) error {
+func (svc *itemService) UseItem(ctx context.Context, inv *Inventory, itemID ItemID) (*ItemUsedEvent, error) {
 	item, err := inv.GetItem(itemID)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	// event := item.Use(inv.UserID)
+	event := item.Use(inv.UserID)
 	item.Use(inv.UserID)
 	inv.Set(item)
 
 	// Quantityが0になったら削除する
 	if item.Quantity == 0 {
 		if err := svc.repo.DeleteOneItem(ctx, inv.UserID, item.ID.String()); err != nil {
-			return err
+			return nil, err
 		}
-		return nil
+		return event, nil
 	}
 
 	if err := svc.repo.UpdateOneItem(ctx, inv.UserID, item); err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return event, nil
 }
