@@ -29,7 +29,7 @@ spec:
         - name: google-cloud-key
           mountPath: /var/secrets/google
         - name: firebase-key
-          mountPath: /var/secrets/google
+          mountPath: /var/secrets/firebase
         env:
         - name: PORT
           value: "50051"
@@ -40,7 +40,7 @@ spec:
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /var/secrets/google/key.json
         - name: FIREBASE_AUTH_CREDENTIALS
-          value: /var/secrets/google/fb-key.json
+          value: /var/secrets/firebase/fb-key.json
         envFrom:
         - secretRef:
             name: user-env
