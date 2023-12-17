@@ -34,6 +34,8 @@ spec:
           value: "give_item-subscription"
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /var/secrets/google/key.json
+        - name: TREE_SERVICE_ADDR
+          value: "tree-service:50051" #tree.yamlを参照
         envFrom:
         - secretRef:
             name: item-env

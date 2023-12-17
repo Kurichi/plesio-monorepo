@@ -17,6 +17,7 @@ import (
 
 func New() *Server {
 	wire.Build(
+		config.New,
 		config.NewDBConfig,
 		database.New,
 		infra.NewItemRepository,
