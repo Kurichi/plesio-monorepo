@@ -8,6 +8,7 @@ import (
 
 func DefineItemRouter(g *echo.Group, ic *item.ItemClient, authHandler *middleware.AuthController) {
 	items := g.Group("/items", authHandler.TokenVerificationMiddleware)
-	items.GET("/items", ic.GetItemsHandler)
-	items.POST("/items/:id/use", ic.UseItemHandler)
+	items.GET("", ic.GetItemsHandler)
+	items.POST("/:id/use", ic.UseItemHandler)
+	items.POST("", ic.CreateItemHandler)
 }

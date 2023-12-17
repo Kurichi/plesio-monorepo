@@ -1,4 +1,13 @@
 definitions:
+  item.CreateItemRequest:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      target:
+        type: string
+    type: object
   item.GetItemsResponse:
     properties:
       items:
@@ -300,9 +309,9 @@ paths:
       - application/json
       description: Create New Mission
       parameters:
-      - description: body
+      - description: request param
         in: body
-        name: body
+        name: mission
         required: true
         schema:
           $ref: '#/definitions/mission.CreateMission'

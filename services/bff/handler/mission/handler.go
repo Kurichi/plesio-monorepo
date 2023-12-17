@@ -131,7 +131,7 @@ func (mc *MissionClient) ProgressMission(c echo.Context) error {
 // @Accept json
 // @Produce json
 // @Security ApiKeyAuth
-// @Param body body mission.CreateMission true "body"
+// @Param mission body mission.CreateMission true "request param"
 // @Success 200 {object} interface{}
 // @Failure 500 {object} string
 // @Router /missions [post]

@@ -273,8 +273,8 @@
                 "summary": "Create Mission",
                 "parameters": [
                     {
-                        "description": "body",
-                        "name": "body",
+                        "description": "request param",
+                        "name": "mission",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -530,6 +530,20 @@
         }
     },
     "definitions": {
+        "item.CreateItemRequest": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "target": {
+                    "type": "string"
+                }
+            }
+        },
         "item.GetItemsResponse": {
             "type": "object",
             "properties": {
