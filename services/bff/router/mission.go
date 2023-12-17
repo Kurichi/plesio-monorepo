@@ -7,8 +7,8 @@ import (
 )
 
 func DefineMissionRouter(g *echo.Group, mc *mission.MissionClient, authHandler *middleware.AuthController) {
-	missions := g.Group("/missions", authHandler.TokenVerificationMiddleware)
-	missions.GET("", mc.GetMissions)
-	missions.POST("/:id", mc.ProgressMission)
+	missions := g.Group("/missions")
+	missions.GET("", mc.GetMissions, authHandler.TokenVerificationMiddleware)
+	missions.POST("/:id", mc.ProgressMission, authHandler.TokenVerificationMiddleware)
 	missions.POST("", mc.CreateMission)
 }
