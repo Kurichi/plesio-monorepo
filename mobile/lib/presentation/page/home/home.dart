@@ -11,16 +11,16 @@ import 'package:kiikuten/presentation/page/home/section/drawer.dart';
 import 'package:kiikuten/presentation/page/home/section/item_container.dart';
 import 'package:kiikuten/presentation/page/settings/settings_screen.dart';
 
-final getItemsProvider = FutureProvider<List<Item>>((ref) async {
-  final getItemsUseCase = ref.read(getItemsUseCaseProvider);
-  return await getItemsUseCase.execute();
-});
-
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final getItemsProvider = FutureProvider<List<Item>>((ref) async {
+      final getItemsUseCase = ref.read(getItemsUseCaseProvider);
+      return await getItemsUseCase.execute();
+    });
+
     final itemsAsyncValue = ref.watch(getItemsProvider);
 
     return Scaffold(
@@ -103,8 +103,26 @@ class HomeScreen extends ConsumerWidget {
           Align(
             alignment: Alignment.bottomCenter,
             child: itemsAsyncValue.when(
-              loading: () => const CircularProgressIndicator(),
-              error: (err, stack) => Text('Error: $err'),
+              loading: () => ItemContainer(
+                items: [
+                  Item(
+                    id: 'loading',
+                    name: '',
+                    description: '',
+                    growthEffect: 0,
+                  ),
+                ],
+              ),
+              error: (err, stack) => ItemContainer(
+                items: [
+                  Item(
+                    id: 'error',
+                    name: '',
+                    description: err.toString(),
+                    growthEffect: 0,
+                  ),
+                ],
+              ),
               data: (items) => ItemContainer(items: items),
             ),
           ),

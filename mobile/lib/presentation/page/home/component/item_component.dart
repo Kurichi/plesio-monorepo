@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:kiikuten/domain/entity/item.dart';
 
 class ItemComponent extends StatelessWidget {
-  const ItemComponent({super.key});
+  const ItemComponent({
+    super.key,
+    required this.item,
+  });
+
+  final Item item;
 
   @override
   Widget build(BuildContext context) {

@@ -12,6 +12,21 @@ class ItemContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> buildItems() {
+      if (items.any((item) => item.id == 'loading')) {
+        return [const CircularProgressIndicator()];
+      } else if (items.any((item) => item.id == 'error')) {
+        return [
+          Text(
+            items.first.description,
+            style: const TextStyle(color: Colors.red),
+          ),
+        ];
+      } else {
+        return items.map((item) => ItemComponent(item: item)).toList();
+      }
+    }
+
     return Container(
       margin: const EdgeInsets.all(32),
       width: double.infinity,
@@ -35,7 +50,7 @@ class ItemContainer extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: items.map((item) => const ItemComponent()).toList(),
+          children: buildItems(),
         ),
       ),
     );
