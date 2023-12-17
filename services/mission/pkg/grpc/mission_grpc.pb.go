@@ -18,6 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MissionServiceClient interface {
+	CreateMission(ctx context.Context, in *CreateMissionRequest, opts ...grpc.CallOption) (*CreateMissionResponse, error)
 	GetMissions(ctx context.Context, in *GetMissionsRequest, opts ...grpc.CallOption) (*GetMissionsResponse, error)
 	ProgressMission(ctx context.Context, in *ProgressMissionRequest, opts ...grpc.CallOption) (*ProgressMissionResponse, error)
 }
@@ -28,6 +29,15 @@ type missionServiceClient struct {
 
 func NewMissionServiceClient(cc grpc.ClientConnInterface) MissionServiceClient {
 	return &missionServiceClient{cc}
+}
+
+func (c *missionServiceClient) CreateMission(ctx context.Context, in *CreateMissionRequest, opts ...grpc.CallOption) (*CreateMissionResponse, error) {
+	out := new(CreateMissionResponse)
+	err := c.cc.Invoke(ctx, "/mission.MissionService/CreateMission", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *missionServiceClient) GetMissions(ctx context.Context, in *GetMissionsRequest, opts ...grpc.CallOption) (*GetMissionsResponse, error) {
@@ -52,6 +62,7 @@ func (c *missionServiceClient) ProgressMission(ctx context.Context, in *Progress
 // All implementations must embed UnimplementedMissionServiceServer
 // for forward compatibility
 type MissionServiceServer interface {
+	CreateMission(context.Context, *CreateMissionRequest) (*CreateMissionResponse, error)
 	GetMissions(context.Context, *GetMissionsRequest) (*GetMissionsResponse, error)
 	ProgressMission(context.Context, *ProgressMissionRequest) (*ProgressMissionResponse, error)
 	mustEmbedUnimplementedMissionServiceServer()
@@ -61,6 +72,9 @@ type MissionServiceServer interface {
 type UnimplementedMissionServiceServer struct {
 }
 
+func (UnimplementedMissionServiceServer) CreateMission(context.Context, *CreateMissionRequest) (*CreateMissionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateMission not implemented")
+}
 func (UnimplementedMissionServiceServer) GetMissions(context.Context, *GetMissionsRequest) (*GetMissionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMissions not implemented")
 }
@@ -78,6 +92,24 @@ type UnsafeMissionServiceServer interface {
 
 func RegisterMissionServiceServer(s grpc.ServiceRegistrar, srv MissionServiceServer) {
 	s.RegisterService(&MissionService_ServiceDesc, srv)
+}
+
+func _MissionService_CreateMission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateMissionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MissionServiceServer).CreateMission(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/mission.MissionService/CreateMission",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MissionServiceServer).CreateMission(ctx, req.(*CreateMissionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _MissionService_GetMissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -123,6 +155,10 @@ var MissionService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "mission.MissionService",
 	HandlerType: (*MissionServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateMission",
+			Handler:    _MissionService_CreateMission_Handler,
+		},
 		{
 			MethodName: "GetMissions",
 			Handler:    _MissionService_GetMissions_Handler,

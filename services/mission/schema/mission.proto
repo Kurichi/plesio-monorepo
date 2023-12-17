@@ -3,8 +3,22 @@ option go_package = "pkg/grpc";
 package mission;
 
 service MissionService {
+    rpc CreateMission(CreateMissionRequest) returns (CreateMissionResponse) {}
     rpc GetMissions(GetMissionsRequest) returns (GetMissionsResponse) {}
     rpc ProgressMission(ProgressMissionRequest) returns (ProgressMissionResponse) {}
+}
+
+message CreateMissionRequest {
+    string description = 1;
+    string target = 2;
+    int32 amount = 3;
+    string unit = 4;
+    string term = 5;
+    repeated Reward rewards = 6;
+}
+
+message CreateMissionResponse {
+    SimpleMission mission = 1;
 }
 
 message GetMissionsRequest {
@@ -25,6 +39,16 @@ message ProgressMissionRequest {
 message ProgressMissionResponse {
     Mission mission = 1;
     bool is_completed = 2;
+}
+
+message SimpleMission {
+    string id = 1;
+    string description = 2;
+    string target = 3;
+    int32 amount = 4;
+    string unit = 5;
+    string term = 6;
+    repeated Reward rewards = 7;
 }
 
 message Mission {

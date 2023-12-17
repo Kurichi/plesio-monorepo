@@ -4,6 +4,7 @@ go 1.21.5
 
 require (
 	cloud.google.com/go/pubsub v1.33.0
+	github.com/google/uuid v1.4.0
 	github.com/google/wire v0.5.0
 	github.com/pkg/errors v0.9.1
 	github.com/uptrace/bun v1.1.16

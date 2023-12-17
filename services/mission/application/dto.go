@@ -26,6 +26,33 @@ type (
 	}
 )
 
+func (r *RewardDTO) ConvertToEntity() *domain.Reward {
+	return &domain.Reward{
+		ItemID: r.ItemID,
+		Amount: r.Amount,
+	}
+}
+
+func ConvertRewardsDTOToEntities(rs []*RewardDTO) []*domain.Reward {
+	rewards := make([]*domain.Reward, 0, len(rs))
+	for _, r := range rs {
+		rewards = append(rewards, r.ConvertToEntity())
+	}
+	return rewards
+}
+
+func (r *MissionDTO) ConvertToEntity() *domain.Mission {
+	return &domain.Mission{
+		ID:          r.ID,
+		Description: r.Description,
+		Term:        r.Term,
+		Target:      r.Target,
+		Amount:      r.Amount,
+		Unit:        r.Unit,
+		Rewards:     ConvertRewardsDTOToEntities(r.Rewards),
+	}
+}
+
 func NewMissionFromEntity(e *domain.Mission) *MissionDTO {
 	return &MissionDTO{
 		ID:          e.ID,

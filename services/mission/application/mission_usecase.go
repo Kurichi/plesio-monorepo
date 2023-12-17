@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/Kurichi/plesio-monorepo/services/mission/domain"
+	"github.com/google/uuid"
 )
 
 type missionUsecase struct {
@@ -25,6 +26,26 @@ func NewMissionUsecase(
 		pub:  pub,
 		tx:   tx,
 	}
+}
+
+// CreateMission implements MissionUsecase.
+func (uc *missionUsecase) CreateMission(ctx context.Context, description string, target string, amount int, unit string, term string, rewards []*RewardDTO) (*MissionDTO, error) {
+	missionDTO := MissionDTO{
+		ID:          uuid.New().String(),
+		Description: description,
+		Term:        term,
+		Target:      target,
+		Amount:      amount,
+		Unit:        unit,
+		Rewards:     rewards,
+	}
+	err := uc.repo.StoreMission(ctx, []*domain.Mission{
+		missionDTO.ConvertToEntity(),
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &missionDTO, nil
 }
 
 // GetMyMissions implements MissionUsecase.
