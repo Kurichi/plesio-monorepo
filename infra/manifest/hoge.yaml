@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-sql-proxy-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloud-sql-proxy-postgres
+  template:
+    metadata:
+      labels:
+        app: cloud-sql-proxy-postgres
+    spec:
+      volumes:
+      - name: google-cloud-key
+        secret:
+          secretName: gsa-key
+      containers:
+      - name: cloud-sql-proxy
+        image: gcr.io/cloudsql-docker/gce-proxy:1.19.1
+        command:
+          - "/cloud_sql_proxy"
+          - "-instances=plesio-407208:asia-northeast1:keekten-db-prod=tcp:5432"
+        securityContext:
+          runAsNonRoot: true
+        volumeMounts:
+        - name: google-cloud-key
+          mountPath: /var/secrets/google
+        env: 
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/key.json 
+        
+
+      - name: postgres
+        image: postgres:latest
+        command: 
+          - "tail"
+          - "-f"
+          - "/dev/null"
