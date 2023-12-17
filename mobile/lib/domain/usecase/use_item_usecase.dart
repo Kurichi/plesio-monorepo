@@ -5,7 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'use_item_usecase.g.dart';
 
 @riverpod
-UseItemUseCase getItemsUseCase(GetItemsUseCaseRef ref) {
+UseItemUseCase useItemUseCase(UseItemUseCaseRef ref) {
   final itemRepository = ref.watch(itemRepositoryProvider);
   return UseItemUseCase(itemRepository);
 }
