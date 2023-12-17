@@ -69,6 +69,25 @@ func (ts *treeService) GetTreeRanking(ctx context.Context, req *treepb.GetTreeRa
 	}, nil
 }
 
+// GrowthTree implements grpc.TreeServiceServer.
+func (svc *treeService) GrowthTree(ctx context.Context, req *treepb.GrowthRequest) (*treepb.GrowthResponse, error) {
+	dto, err := svc.uc.GrowthTree(ctx, req.GetUserId(), req.GetTarget(), int(req.GetAmount()))
+	if err != nil {
+		return nil, err
+	}
+
+	res := &treepb.GrowthResponse{
+		Tree: &treepb.Tree{
+			Id:         dto.ID,
+			Stage:      int32(dto.Stage),
+			Water:      int32(dto.Water),
+			Fertilizer: int32(dto.Fertilizer),
+			PlantAt:    dto.PlantAt,
+		},
+	}
+	return res, nil
+}
+
 func convertTreeDTOToProtoTree(treeDto *application.TreeDTO) *treepb.Tree {
 	return &treepb.Tree{
 		Id:         treeDto.ID,

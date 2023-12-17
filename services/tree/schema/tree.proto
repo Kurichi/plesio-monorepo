@@ -8,6 +8,7 @@ service TreeService {
     rpc GetTreeByUserId(GetTreeRequest) returns (GetTreeResponse) {}
     rpc GetMyTree(GetTreeRequest) returns (GetTreeResponse) {}
     rpc GetTreeRanking(GetTreeRankingRequest) returns (GetTreeRankingResponse) {}
+    rpc GrowthTree(GrowthRequest) returns (GrowthResponse) {}
 }
 
 message PlantTreeRequest {
@@ -36,4 +37,14 @@ message Tree {
     int32 water = 3;
     int32 fertilizer = 4;
     int64 plant_at = 5;
+}
+
+message GrowthRequest {
+    string user_id = 1;
+    string target = 2; // 'water' or 'fertilizer'
+    int32 amount = 3; 
+}
+
+message GrowthResponse {
+    Tree tree = 1;
 }

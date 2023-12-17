@@ -24,6 +24,7 @@ const (
 	TreeService_GetTreeByUserId_FullMethodName = "/tree.TreeService/GetTreeByUserId"
 	TreeService_GetMyTree_FullMethodName       = "/tree.TreeService/GetMyTree"
 	TreeService_GetTreeRanking_FullMethodName  = "/tree.TreeService/GetTreeRanking"
+	TreeService_GrowthTree_FullMethodName      = "/tree.TreeService/GrowthTree"
 )
 
 // TreeServiceClient is the client API for TreeService service.
@@ -35,6 +36,7 @@ type TreeServiceClient interface {
 	GetTreeByUserId(ctx context.Context, in *GetTreeRequest, opts ...grpc.CallOption) (*GetTreeResponse, error)
 	GetMyTree(ctx context.Context, in *GetTreeRequest, opts ...grpc.CallOption) (*GetTreeResponse, error)
 	GetTreeRanking(ctx context.Context, in *GetTreeRankingRequest, opts ...grpc.CallOption) (*GetTreeRankingResponse, error)
+	GrowthTree(ctx context.Context, in *GrowthRequest, opts ...grpc.CallOption) (*GrowthResponse, error)
 }
 
 type treeServiceClient struct {
@@ -90,6 +92,15 @@ func (c *treeServiceClient) GetTreeRanking(ctx context.Context, in *GetTreeRanki
 	return out, nil
 }
 
+func (c *treeServiceClient) GrowthTree(ctx context.Context, in *GrowthRequest, opts ...grpc.CallOption) (*GrowthResponse, error) {
+	out := new(GrowthResponse)
+	err := c.cc.Invoke(ctx, TreeService_GrowthTree_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TreeServiceServer is the server API for TreeService service.
 // All implementations must embed UnimplementedTreeServiceServer
 // for forward compatibility
@@ -99,6 +110,7 @@ type TreeServiceServer interface {
 	GetTreeByUserId(context.Context, *GetTreeRequest) (*GetTreeResponse, error)
 	GetMyTree(context.Context, *GetTreeRequest) (*GetTreeResponse, error)
 	GetTreeRanking(context.Context, *GetTreeRankingRequest) (*GetTreeRankingResponse, error)
+	GrowthTree(context.Context, *GrowthRequest) (*GrowthResponse, error)
 	mustEmbedUnimplementedTreeServiceServer()
 }
 
@@ -120,6 +132,9 @@ func (UnimplementedTreeServiceServer) GetMyTree(context.Context, *GetTreeRequest
 }
 func (UnimplementedTreeServiceServer) GetTreeRanking(context.Context, *GetTreeRankingRequest) (*GetTreeRankingResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTreeRanking not implemented")
+}
+func (UnimplementedTreeServiceServer) GrowthTree(context.Context, *GrowthRequest) (*GrowthResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GrowthTree not implemented")
 }
 func (UnimplementedTreeServiceServer) mustEmbedUnimplementedTreeServiceServer() {}
 
@@ -224,6 +239,24 @@ func _TreeService_GetTreeRanking_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TreeService_GrowthTree_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GrowthRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TreeServiceServer).GrowthTree(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TreeService_GrowthTree_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TreeServiceServer).GrowthTree(ctx, req.(*GrowthRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TreeService_ServiceDesc is the grpc.ServiceDesc for TreeService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -250,6 +283,10 @@ var TreeService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTreeRanking",
 			Handler:    _TreeService_GetTreeRanking_Handler,
+		},
+		{
+			MethodName: "GrowthTree",
+			Handler:    _TreeService_GrowthTree_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
