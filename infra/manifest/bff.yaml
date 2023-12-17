@@ -29,6 +29,12 @@ spec:
           value: "8080"
         - name: TREE_SERVICE_ADDR
           value: "tree-service:50051" #tree.yamlを参照
+        - name: ITEM_SERVICE_ADDR
+          value: "item-service:50051"
+        - name: MISSION_SERVICE_ADDR
+          value: "mission-service:50051"
+        - name: USER_SERVICE_ADDR
+          value: "user-service:50051"
         - name: FIREBASE_AUTH_CREDENTIALS
           value: /var/secrets/google/fb-key.json
 ---
