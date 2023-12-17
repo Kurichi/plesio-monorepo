@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:kiikuten/domain/entity/item.dart';
+import 'package:kiikuten/domain/usecase/get_items_usecase.dart';
 import 'package:kiikuten/presentation/designsystem/component/dot/green_dot.dart';
 import 'package:kiikuten/presentation/designsystem/component/kiikuten_avatar.dart';
 import 'package:kiikuten/presentation/designsystem/component/tree/kiikuten_seed.dart';
@@ -8,11 +11,18 @@ import 'package:kiikuten/presentation/page/home/section/drawer.dart';
 import 'package:kiikuten/presentation/page/home/section/item_container.dart';
 import 'package:kiikuten/presentation/page/settings/settings_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+final getItemsProvider = FutureProvider<List<Item>>((ref) async {
+  final getItemsUseCase = ref.read(getItemsUseCaseProvider);
+  return await getItemsUseCase.execute();
+});
+
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final itemsAsyncValue = ref.watch(getItemsProvider);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -90,9 +100,13 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-          const Align(
+          Align(
             alignment: Alignment.bottomCenter,
-            child: ItemContainer(),
+            child: itemsAsyncValue.when(
+              loading: () => const CircularProgressIndicator(),
+              error: (err, stack) => Text('Error: $err'),
+              data: (items) => ItemContainer(items: items),
+            ),
           ),
         ],
       ),
