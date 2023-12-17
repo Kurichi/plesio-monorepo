@@ -42,6 +42,12 @@ message UseItemRequest {
     string itemId = 2;
 }
 
+message UseItemResponse {
+    int32 stage = 1;
+    int32 water = 2;
+    int32 felitilizer = 3;
+}
+
 message GetItemsByIDsRequest {
     repeated string itemIds = 1;
 }
