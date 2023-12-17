@@ -21,10 +21,11 @@ class KiikutenThemeData {
   }
 
   Color _randomizeColor(Color baseColor) {
+    const range = 8;
     Random random = Random();
-    int r = baseColor.red + random.nextInt(10) - 5;
-    int g = baseColor.green + random.nextInt(10) - 5;
-    int b = baseColor.blue + random.nextInt(10) - 5;
+    int r = baseColor.red + random.nextInt(range * 2) - range;
+    int g = baseColor.green + random.nextInt(range * 2) - range;
+    int b = baseColor.blue + random.nextInt(range * 2) - range;
     return Color.fromRGBO(
       _clampColorValue(r),
       _clampColorValue(g),
