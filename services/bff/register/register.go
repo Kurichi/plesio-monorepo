@@ -2,6 +2,7 @@ package register
 
 import (
 	"github.com/Kurichi/plesio-monorepo/services/bff/handler/item"
+	"github.com/Kurichi/plesio-monorepo/services/bff/handler/mission"
 	"github.com/Kurichi/plesio-monorepo/services/bff/handler/tree"
 	"github.com/Kurichi/plesio-monorepo/services/bff/handler/user"
 	"github.com/Kurichi/plesio-monorepo/services/bff/middleware"
@@ -14,6 +15,7 @@ func Register(
 	treeHandler *tree.TreeClient,
 	userHandler *user.UserClient,
 	itemHandler *item.ItemClient,
+	missionHandler *mission.MissionClient,
 	authHandler *middleware.AuthController,
 ) *echo.Echo {
 	e := echo.New()
@@ -34,5 +36,6 @@ func Register(
 	router.DefineUserRouter(g, userHandler, authHandler)
 	router.DefineTreeRouter(g, treeHandler, authHandler)
 	router.DefineItemRouter(g, itemHandler, authHandler)
+	router.DefineMissionRouter(g, missionHandler, authHandler)
 	return e
 }
