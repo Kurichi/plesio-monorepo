@@ -31,3 +31,11 @@ func (m *UserMission) IsCompleted() (bool, *CompleteMissionEvent) {
 func (m *UserMission) UpdateProgress(progress int) {
 	m.Progress = progress
 }
+
+func (m *UserMission) CheckProgress(cont *CommitListResponse) bool {
+	if m.Mission.Target == "commit" && m.Mission.Amount <= len(*cont) {
+		return true
+	}
+
+	return false
+}

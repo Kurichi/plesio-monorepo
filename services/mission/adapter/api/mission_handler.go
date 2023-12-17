@@ -5,6 +5,7 @@ import (
 
 	"github.com/Kurichi/plesio-monorepo/services/mission/application"
 	missionpb "github.com/Kurichi/plesio-monorepo/services/mission/pkg/grpc"
+	"google.golang.org/grpc/metadata"
 )
 
 type missionHandler struct {
@@ -33,7 +34,14 @@ func (mh *missionHandler) CreateMission(ctx context.Context, req *missionpb.Crea
 }
 
 func (mh *missionHandler) GetMissions(ctx context.Context, req *missionpb.GetMissionsRequest) (*missionpb.GetMissionsResponse, error) {
-	userMissions, err := mh.uc.GetMissions(ctx, req.GetUserId(), req.Term)
+	var token string
+	if md, ok := metadata.FromIncomingContext(ctx); ok {
+		if len(md["token"]) > 0 {
+			token = md["token"][0]
+		}
+	}
+
+	userMissions, err := mh.uc.GetMissions(ctx, req.GetUserId(), req.Term, token)
 	if err != nil {
 		return nil, err
 	}

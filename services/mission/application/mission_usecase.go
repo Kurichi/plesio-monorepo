@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/Kurichi/plesio-monorepo/services/mission/domain"
+	"github.com/Kurichi/plesio-monorepo/services/mission/infra"
 	"github.com/google/uuid"
 )
 
@@ -11,6 +12,7 @@ type missionUsecase struct {
 	repo domain.MissionRepository
 	svc  domain.MissionService
 	pub  domain.Publisher
+	gh   domain.GitHubRepository
 	tx   domain.TxRepository
 }
 
@@ -24,6 +26,7 @@ func NewMissionUsecase(
 		repo: repo,
 		svc:  svc,
 		pub:  pub,
+		gh:   infra.NewGitHubRepository(),
 		tx:   tx,
 	}
 }
@@ -49,7 +52,12 @@ func (uc *missionUsecase) CreateMission(ctx context.Context, description string,
 }
 
 // GetMyMissions implements MissionUsecase.
-func (uc *missionUsecase) GetMissions(ctx context.Context, userID string, term *string) ([]*UserMissionDTO, error) {
+func (uc *missionUsecase) GetMissions(ctx context.Context, userID string, term *string, token string) ([]*UserMissionDTO, error) {
+	cons, err := uc.gh.GetCommits(ctx, token)
+	if err != nil {
+		return nil, err
+	}
+
 	var filter domain.Filter
 	if term != nil {
 		if *term == "daily" {
@@ -63,7 +71,19 @@ func (uc *missionUsecase) GetMissions(ctx context.Context, userID string, term *
 		return nil, err
 	}
 
-	if len(dailyMissions) > 0 {
+	ret := make([]*UserMissionDTO, 0, len(dailyMissions))
+	for _, mission := range dailyMissions {
+		var isCompleted bool
+		if isCompleted := mission.CheckProgress(cons); isCompleted {
+			mission.UpdateProgress(1)
+			if err := uc.repo.UpdateUserMission(ctx, userID, mission); err != nil {
+				return nil, err
+			}
+		}
+		ret = append(ret, NewUserMissionFromEntity(mission, isCompleted))
+	}
+
+	if len(ret) > 0 {
 		return NewUserMissionsFromEntity(dailyMissions), nil
 	}
 

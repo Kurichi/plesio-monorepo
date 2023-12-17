@@ -27,3 +27,7 @@ type TxRepository interface {
 type Publisher interface {
 	Publish(ctx context.Context, event *CompleteMissionEvent) error
 }
+
+type GitHubRepository interface {
+	GetCommits(ctx context.Context, token string) (*CommitListResponse, error)
+}
