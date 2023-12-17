@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:kiikuten/presentation/page/home/component/item.dart';
+import 'package:kiikuten/domain/entity/item.dart';
+import 'package:kiikuten/presentation/page/home/component/item_component.dart';
 
 class ItemContainer extends StatelessWidget {
-  const ItemContainer({super.key});
+  const ItemContainer({
+    super.key,
+    required this.items,
+  });
+
+  final List<Item> items;
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +29,13 @@ class ItemContainer extends StatelessWidget {
           ),
         ],
       ),
-      child: const SingleChildScrollView(
-        padding: EdgeInsets.all(8),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(8),
         scrollDirection: Axis.horizontal,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Item(),
-          ],
+          children: items.map((item) => const ItemComponent()).toList(),
         ),
       ),
     );
