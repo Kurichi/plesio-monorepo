@@ -8,7 +8,7 @@ class MissionDataSource {
   MissionDataSource(this.baseUrl);
 
   Future<List<MissionModel>> getMissions() async {
-    final response = await http.get(Uri.parse('$baseUrl/missions'));
+    final response = await http.get(Uri.parse('$baseUrl/api/v1/missions'));
 
     if (response.statusCode == 200) {
       Iterable jsonResponse = json.decode(response.body);
@@ -20,15 +20,12 @@ class MissionDataSource {
     }
   }
 
-  Future<UserMissionModel> getUserMission(String userId) async {
+  Future<void> progressMission(String missionId) async {
     final response =
-        await http.get(Uri.parse('$baseUrl/users/$userId/mission'));
+        await http.post(Uri.parse('$baseUrl/api/v1/missions/$missionId'));
 
-    if (response.statusCode == 200) {
-      final jsonResponse = json.decode(response.body);
-      return UserMissionModel.fromJson(jsonResponse);
-    } else {
-      throw Exception('Failed to load user mission');
+    if (response.statusCode != 200) {
+      throw Exception('Failed to progress mission');
     }
   }
 }

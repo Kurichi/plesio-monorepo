@@ -10,17 +10,11 @@ class MissionRepositoryImpl implements MissionRepository {
   @override
   Future<List<Mission>> getMissions() async {
     final missionModels = await _missionDataSource.getMissions();
-    return missionModels.map((e) => e.toEntity()).toList();
+    return missionModels.map((model) => model.toEntity()).toList();
   }
 
   @override
-  Future<UserMission> getUserMission(String userId) async {
-    final userMissionModel = await _missionDataSource.getUserMission(userId);
-    return userMissionModel.toEntity();
-  }
-
-  @override
-  Future<void> updateUserMission(UserMission userMission) async {
-    //
+  Future<void> progressMission(String missionId) async {
+    await _missionDataSource.progressMission(missionId);
   }
 }

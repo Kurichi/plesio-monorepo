@@ -12,4 +12,14 @@ class UserRepositoryImpl implements UserRepository {
     final userModel = await _userDataSource.getUser(userId);
     return userModel.toEntity();
   }
+
+  @override
+  Future<void> signUp(/* parameters for sign up */) async {
+    // Delegate to UserDataSource
+  }
+
+  @override
+  Future<void> updateUser(/* parameters for update */) async {
+    // Delegate to UserDataSource
+  }
 }

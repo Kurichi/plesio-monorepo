@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:http/http.dart' as http;
 
 class SigninScreen extends StatelessWidget {
   const SigninScreen({super.key});
@@ -102,13 +104,23 @@ class SigninScreen extends StatelessWidget {
   }
 
   Future<UserCredential> signInWithGitHub() async {
+    final String baseUrl = dotenv.env['BASE_URL'] ?? '';
     final GithubAuthProvider githubProvider = GithubAuthProvider();
+    githubProvider.addScope('repo, user, read:user, read:org, read:re');
     final user = await FirebaseAuth.instance.signInWithPopup(githubProvider);
-    final accessToken = user.credential?.accessToken;
+    // final accessToken = user.credential?.accessToken;
     final String idToken =
         await FirebaseAuth.instance.currentUser!.getIdToken() ?? '';
-    debugPrint('accessToken: $accessToken');
+    // debugPrint('accessToken: $accessToken');
     debugPrint('idToken: $idToken');
+    debugPrint('uid: ${user.user?.uid}');
+    final res = await http.post(
+      Uri.parse('$baseUrl/api/v1/signup'),
+      headers: {'Authorization': 'Bearer $idToken'},
+      body: {'id': user.user?.uid ?? ''},
+    );
+    debugPrint('res: ${res.body}');
+    debugPrint('res: ${res.statusCode}');
     return user;
   }
 }
