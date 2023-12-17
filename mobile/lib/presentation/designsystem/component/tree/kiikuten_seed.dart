@@ -5,22 +5,22 @@ class KiikutenSeed extends StatelessWidget {
   const KiikutenSeed({
     super.key,
     required this.size,
+    this.dotCount = 10,
   });
 
   final double size;
+  final int dotCount;
 
   @override
   Widget build(BuildContext context) {
-    int squareSize = 10;
-
     return SizedBox(
-      width: 80,
-      height: 80,
+      width: size,
+      height: size,
       child: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: squareSize,
+          crossAxisCount: dotCount,
         ),
-        itemCount: squareSize * squareSize,
+        itemCount: dotCount * dotCount,
         itemBuilder: (context, index) {
           return const BrownDot();
         },
