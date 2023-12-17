@@ -1,8 +1,6 @@
 definitions:
   item.CreateItemRequest:
     properties:
-      amount:
-        type: integer
       description:
         type: string
       name:

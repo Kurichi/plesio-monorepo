@@ -544,9 +544,6 @@ const docTemplate = `{
         "item.CreateItemRequest": {
             "type": "object",
             "properties": {
-                "amount": {
-                    "type": "integer"
-                },
                 "description": {
                     "type": "string"
                 },

@@ -106,5 +106,21 @@ func (ic *ItemClient) CreateItemHandler(c echo.Context) error {
 		return err
 	}
 
-	return nil
+	ctx := c.Request().Context()
+	req := &itemGrpc.CreateItemRequest{
+		Name:        item.Name,
+		Description: item.Description,
+		Target:      item.Target,
+	}
+
+	res, err := ic.client.CreateItem(ctx, req)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+	return c.JSON(http.StatusOK, &CreateItemResponse{
+		Item: &NewItem{
+			CreateItemRequest: item,
+			ID:                res.Item.Id,
+		},
+	})
 }
