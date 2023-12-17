@@ -10,4 +10,5 @@ func DefineMissionRouter(g *echo.Group, mc *mission.MissionClient, authHandler *
 	missions := g.Group("/missions", authHandler.TokenVerificationMiddleware)
 	missions.GET("", mc.GetMissions)
 	missions.POST("/:id", mc.ProgressMission)
+	missions.POST("", mc.CreateMission)
 }

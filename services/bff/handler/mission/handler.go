@@ -124,3 +124,50 @@ func (mc *MissionClient) ProgressMission(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, nil)
 }
+
+// @Summary Create Mission
+// @Description Create New Mission
+// @Tags missions
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param body body mission.CreateMission true "body"
+// @Success 200 {object} interface{}
+// @Failure 500 {object} string
+// @Router /missions [post]
+func (mc *MissionClient) CreateMission(c echo.Context) error {
+	var mission CreateMission
+	if err := c.Bind(&mission); err != nil {
+		return err
+	}
+
+	rewards := make([]*missionGrpc.Reward, 0, len(mission.Rewards))
+	for _, reward := range mission.Rewards {
+		rewards = append(rewards, &missionGrpc.Reward{
+			ItemId: reward.ItemID,
+			Amount: int32(reward.Amount),
+		})
+	}
+
+	req := missionGrpc.CreateMissionRequest{
+		Description: mission.Description,
+		Target:      mission.Target,
+		Amount:      int32(mission.Amount),
+		Unit:        mission.Unit,
+		Term:        mission.Term,
+		Rewards:     rewards,
+	}
+
+	ctx := c.Request().Context()
+	res, err := mc.mClient.CreateMission(ctx, &req)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, &CreateMissionResponse{
+		Mission: &DetailedMission{
+			ID:            res.Mission.Id,
+			CreateMission: mission,
+		},
+	})
+}
