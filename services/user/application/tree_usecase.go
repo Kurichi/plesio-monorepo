@@ -85,6 +85,11 @@ func (uc *userUsecase) Register(ctx context.Context, user *UserDTO) (*UserDTO, e
 		return nil, errors.New("user is nil")
 	}
 
+	dbUser, err := uc.repo.GetUserByID(ctx, user.ID)
+	if dbUser != nil {
+		return nil, errors.New("user already exists")
+	}
+
 	domainUser, err := uc.repo.CreateUser(ctx, domain.NewUser(user.ID, user.Name, user.Avatar, user.GithubID))
 	if err != nil {
 		return nil, err

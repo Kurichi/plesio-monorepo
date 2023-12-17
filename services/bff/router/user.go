@@ -8,6 +8,7 @@ import (
 )
 
 func DefineUserRouter(g *echo.Group, uc *user.UserClient, authHandler *middleware.AuthController) {
-	g.POST("/user", uc.CreateUser)
+	g.POST("/signup", uc.SignUp, authHandler.TokenVerificationMiddleware)
 	g.GET("/user/:userId", uc.GetUser, authHandler.TokenVerificationMiddleware)
+	g.PUT("/users/me", uc.UpdateUser, authHandler.TokenVerificationMiddleware)
 }

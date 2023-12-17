@@ -6,6 +6,7 @@ ENV GO_ENV /src
 WORKDIR /src
 
 RUN go install github.com/cosmtrek/air@v1.29.0
+RUN go install github.com/swaggo/swag/cmd/swag@latest
 
 COPY go.mod go.sum ./
 
