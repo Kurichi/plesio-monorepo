@@ -7,14 +7,13 @@ class KiikutenSeed extends StatelessWidget {
   const KiikutenSeed({
     super.key,
     required this.size,
-    this.dotCount = 16,
   });
 
   final double size;
-  final int dotCount;
 
   @override
   Widget build(BuildContext context) {
+    final dotCount = size ~/ 8;
     return SizedBox(
       width: size,
       height: size,

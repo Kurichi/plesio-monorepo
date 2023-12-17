@@ -8,14 +8,13 @@ class KiikutenTree extends StatelessWidget {
   const KiikutenTree({
     super.key,
     required this.size,
-    this.dotCount = 16,
   });
 
   final double size;
-  final int dotCount;
 
   @override
   Widget build(BuildContext context) {
+    final dotCount = size ~/ 8;
     return SizedBox(
       width: size,
       height: size * 2,
@@ -34,7 +33,7 @@ class KiikutenTree extends StatelessWidget {
           // 葉の部分
           final y = index ~/ dotCount;
           if (index < dotCount * dotCount * 1.5) {
-            final leafWidth = max(0, y / 2);
+            final leafWidth = max(0, y / 2.8);
             if (distance < leafWidth) {
               return const GreenDot();
             } else {
@@ -43,7 +42,7 @@ class KiikutenTree extends StatelessWidget {
           }
 
           // 幹の部分
-          else if (distance < center / 2) {
+          else if (distance < center / 2.4) {
             return const BrownDot();
           } else {
             return Container();
