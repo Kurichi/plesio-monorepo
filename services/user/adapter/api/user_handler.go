@@ -41,11 +41,17 @@ func (us *userService) GetUsers(ctx context.Context, req *userpb.GetUsersRequest
 }
 
 func (us *userService) SignUp(ctx context.Context, req *userpb.SignUpRequest) (*userpb.SignUpResponse, error) {
-	user, err := us.uuc.FetchUser(ctx, req.GetId())
-	if err != nil {
-		return nil, err
-	}
+	// user, err := us.uuc.FetchUser(ctx, req.GetId())
+	// if err != nil {
+	// 	return nil, err
+	// }
 
+	user := &application.UserDTO{
+		ID:       req.GetId(),
+		Name:     "hoge",
+		Avatar:   "hoge",
+		GithubID: "hoge",
+	}
 	newUser, err := us.uuc.Register(ctx, user)
 	if err != nil {
 		return nil, err
