@@ -7,13 +7,26 @@ class ItemDataSource {
 
   ItemDataSource(this.baseUrl);
 
-  Future<ItemModel> getItem(String itemId) async {
-    final response = await http.get(Uri.parse('$baseUrl/items/$itemId'));
+  Future<List<ItemModel>> getItems() async {
+    final response = await http
+        .get(Uri.parse('$baseUrl/api/v1/items'))
+        .timeout(const Duration(seconds: 10));
 
     if (response.statusCode == 200) {
-      return ItemModel.fromJson(json.decode(response.body));
+      List<dynamic> body = json.decode(response.body);
+      return body.map((dynamic item) => ItemModel.fromJson(item)).toList();
     } else {
-      throw Exception('Failed to load item');
+      throw Exception('Failed to load items: ${response.statusCode}');
+    }
+  }
+
+  Future<void> useItem(String itemId) async {
+    final response = await http
+        .post(Uri.parse('$baseUrl/api/v1/items/$itemId/use'))
+        .timeout(const Duration(seconds: 10));
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to use item: ${response.statusCode}');
     }
   }
 }
