@@ -8,14 +8,13 @@ class ItemRepositoryImpl implements ItemRepository {
   ItemRepositoryImpl(this._itemDataSource);
 
   @override
-  Future<Item> getItem(String itemId) async {
-    final itemModel = await _itemDataSource.getItem(itemId);
-    return itemModel.toEntity();
+  Future<List<Item>> getItems() async {
+    final itemModels = await _itemDataSource.getItems();
+    return itemModels.map((model) => model.toEntity()).toList();
   }
 
   @override
   Future<void> useItem(String itemId) async {
-    final item = await getItem(itemId);
-    item.use();
+    await _itemDataSource.useItem(itemId);
   }
 }
