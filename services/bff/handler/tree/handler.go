@@ -18,6 +18,15 @@ func NewTreeClient(client treeGrpc.TreeServiceClient) *TreeClient {
 	}
 }
 
+// @Summary Get My Tree
+// @Description GetMy Tree
+// @Tags trees
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Success 200 {object} tree.GetTreeResponse
+// @Failure 500 {object} string
+// @Router /trees/me [get]
 func (tc *TreeClient) GetMyTreeHandler(c echo.Context) error {
 	token, ok := c.Get("token").(string)
 	if !ok {
@@ -44,6 +53,15 @@ func (tc *TreeClient) GetMyTreeHandler(c echo.Context) error {
 	return c.JSON(http.StatusOK, resData)
 }
 
+// @Summary Get My Tree
+// @Description GetMy Tree
+// @Tags trees
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Success 200 {object} tree.GetTreeResponse
+// @Failure 500 {object} string
+// @Router /trees/init [get]
 func (tc *TreeClient) InitTreeHandler(c echo.Context) error {
 	token, ok := c.Get("token").(string)
 	if !ok {
@@ -70,6 +88,15 @@ func (tc *TreeClient) InitTreeHandler(c echo.Context) error {
 	return c.JSON(http.StatusOK, resData)
 }
 
+// @Summary Plant tree
+// @Description Plant tree
+// @Tags trees
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Success 200 {object} tree.GetTreeResponse
+// @Failure 500 {object} string
+// @Router /trees/plant [post]
 func (tc *TreeClient) PlantTreeHandler(c echo.Context) error {
 	token, ok := c.Get("token").(string)
 	if !ok {
@@ -96,6 +123,16 @@ func (tc *TreeClient) PlantTreeHandler(c echo.Context) error {
 	return c.JSON(http.StatusOK, resData)
 }
 
+// @Summary Get Tree By User ID
+// @Description Get Tree By User ID
+// @Tags users
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param userId path string true "User ID"
+// @Success 200 {object} tree.GetTreeResponse
+// @Failure 500 {object} string
+// @Router /users/{userId}/tree [get]
 func (tc *TreeClient) GetTreeByUserId(c echo.Context) error {
 	param := &GetTreeParam{}
 	if err := c.Bind(param); err != nil {
@@ -115,6 +152,16 @@ func (tc *TreeClient) GetTreeByUserId(c echo.Context) error {
 	return c.JSON(http.StatusOK, resData)
 }
 
+// @Summary Get Tree Ranking
+// @Description Get Tree Ranking
+// @Tags trees
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param limit query int false "Limit"
+// @Success 200 {object} tree.GetTreeRankingResponse
+// @Failure 500 {object} string
+// @Router /trees/ranking [get]
 func (tc *TreeClient) GetTreeRanking(c echo.Context) error {
 	query := &GetTreeRankingQuery{Limit: 10}
 	if err := c.Bind(query); err != nil {

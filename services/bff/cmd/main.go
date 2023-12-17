@@ -8,10 +8,17 @@ import (
 	"github.com/Kurichi/plesio-monorepo/services/bff/register"
 	"github.com/labstack/echo/v4"
 
+	_ "github.com/Kurichi/plesio-monorepo/services/bff/docs"
+
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+
+	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 func main() {
 	cfg := config.New()
 
@@ -33,6 +40,8 @@ func main() {
 	g.GET("/health", func(c echo.Context) error {
 		return c.String(http.StatusOK, "OK")
 	})
+
+	g.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	log.Fatal(g.Start(":" + cfg.Port))
 }
