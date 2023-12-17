@@ -18,3 +18,7 @@ type InventoryRepository interface {
 type TxRepository interface {
 	DoInTx(ctx context.Context, fn func(ctx context.Context) error) error
 }
+
+type TreeService interface {
+	GrowthEvent(ctx context.Context, event *ItemUsedEvent) (*Tree, error)
+}

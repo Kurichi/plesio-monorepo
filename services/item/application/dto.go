@@ -20,6 +20,12 @@ type RewqrdDTO struct {
 	Amount int
 }
 
+type TreeDTO struct {
+	Stage      int
+	Water      int
+	Fertilizer int
+}
+
 func NewItemFromEntity(item *domain.Item) *ItemDTO {
 	return &ItemDTO{
 		ID:          item.ID.String(),
