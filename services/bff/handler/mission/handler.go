@@ -20,6 +20,15 @@ func NewMissionClient(mClient missionGrpc.MissionServiceClient, iClient itemGrpc
 	}
 }
 
+// @Summary Get Missions
+// @Description Get Missions
+// @Tags missions
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Success 200 {object} mission.GetMissionsResponse
+// @Failure 500 {object} string
+// @Router /missions [get]
 func (mc *MissionClient) GetMissions(c echo.Context) error {
 	userID, ok := c.Get("userID").(string)
 	if !ok {
@@ -84,6 +93,16 @@ func (mc *MissionClient) GetMissions(c echo.Context) error {
 	})
 }
 
+// @Summary Update Progress Mission
+// @Description Update Progress Mission
+// @Tags missions
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param mission_id path string true "Mission ID"
+// @Success 200 {object} interface{}
+// @Failure 500 {object} string
+// @Router /missions/{mission_id} [post]
 func (mc *MissionClient) ProgressMission(c echo.Context) error {
 	userID, ok := c.Get("userID").(string)
 	if !ok {

@@ -1,0 +1,426 @@
+definitions:
+  item.GetItemsResponse:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/item.Item'
+        type: array
+    type: object
+  item.Item:
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      image:
+        type: string
+      name:
+        type: string
+      quantity:
+        type: integer
+    type: object
+  mission.GetMissionsResponse:
+    properties:
+      missions:
+        items:
+          $ref: '#/definitions/mission.Mission'
+        type: array
+    type: object
+  mission.Item:
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      image:
+        type: string
+      name:
+        type: string
+    type: object
+  mission.Mission:
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      image:
+        type: string
+      items:
+        items:
+          $ref: '#/definitions/mission.Item'
+        type: array
+      name:
+        type: string
+    type: object
+  tree.GetTreeRankingResponse:
+    properties:
+      trees:
+        items:
+          $ref: '#/definitions/tree.Tree'
+        type: array
+    type: object
+  tree.GetTreeResponse:
+    properties:
+      tree:
+        $ref: '#/definitions/tree.Tree'
+    type: object
+  tree.Tree:
+    properties:
+      fertilizer:
+        type: integer
+      id:
+        type: string
+      plantAt:
+        type: integer
+      stage:
+        type: integer
+      water:
+        type: integer
+    type: object
+  user.GetUserResponse:
+    properties:
+      user:
+        $ref: '#/definitions/user.User'
+    type: object
+  user.SignUpRequest:
+    properties:
+      id:
+        type: string
+    type: object
+  user.SignUpResponse:
+    properties:
+      user:
+        $ref: '#/definitions/user.User'
+    type: object
+  user.UpdateUserRequest:
+    properties:
+      avatar:
+        type: string
+      name:
+        type: string
+    type: object
+  user.UpdateUserResponse:
+    properties:
+      user:
+        $ref: '#/definitions/user.User'
+    type: object
+  user.User:
+    properties:
+      avatar:
+        type: string
+      github_id:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/signup:
+    post:
+      consumes:
+      - application/json
+      description: Sign Up
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/user.SignUpRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.SignUpResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Sign Up
+      tags:
+      - users
+  /api/v1/users/{user_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get User
+      parameters:
+      - description: user_id
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.GetUserResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get User
+      tags:
+      - users
+  /api/v1/users/me:
+    put:
+      consumes:
+      - application/json
+      description: Update User
+      parameters:
+      - description: user_id
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/user.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.UpdateUserResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Update User
+      tags:
+      - users
+  /items:
+    get:
+      consumes:
+      - application/json
+      description: Get Items
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/item.GetItemsResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Get Items
+      tags:
+      - items
+  /items/{item_id}:
+    post:
+      consumes:
+      - application/json
+      description: Use item
+      parameters:
+      - description: Item Id
+        in: path
+        name: item_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Use item
+      tags:
+      - items
+  /missions:
+    get:
+      consumes:
+      - application/json
+      description: Get Missions
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/mission.GetMissionsResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Get Missions
+      tags:
+      - missions
+  /missions/{mission_id}:
+    post:
+      consumes:
+      - application/json
+      description: Update Progress Mission
+      parameters:
+      - description: Mission ID
+        in: path
+        name: mission_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Update Progress Mission
+      tags:
+      - missions
+  /trees/init:
+    get:
+      consumes:
+      - application/json
+      description: GetMy Tree
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tree.GetTreeResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Get My Tree
+      tags:
+      - trees
+  /trees/me:
+    get:
+      consumes:
+      - application/json
+      description: GetMy Tree
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tree.GetTreeResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Get My Tree
+      tags:
+      - trees
+  /trees/plant:
+    post:
+      consumes:
+      - application/json
+      description: Plant tree
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tree.GetTreeResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Plant tree
+      tags:
+      - trees
+  /trees/ranking:
+    get:
+      consumes:
+      - application/json
+      description: Get Tree Ranking
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tree.GetTreeRankingResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Get Tree Ranking
+      tags:
+      - trees
+  /users/{userId}/tree:
+    get:
+      consumes:
+      - application/json
+      description: Get Tree By User ID
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/tree.GetTreeResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Get Tree By User ID
+      tags:
+      - users
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

@@ -17,6 +17,15 @@ func NewItemClient(client itemGrpc.ItemServiceClient) *ItemClient {
 	}
 }
 
+// @Summary Get Items
+// @Description Get Items
+// @Tags items
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Success 200 {object} item.GetItemsResponse
+// @Failure 500 {object} string
+// @Router /items [get]
 func (ic *ItemClient) GetItemsHandler(c echo.Context) error {
 	userID, ok := c.Get("userID").(string)
 	if !ok {
@@ -47,6 +56,16 @@ func (ic *ItemClient) GetItemsHandler(c echo.Context) error {
 	})
 }
 
+// @Summary Use item
+// @Description Use item
+// @Tags items
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param item_id path string true "Item Id"
+// @Success 200 {object} interface{}
+// @Failure 500 {object} string
+// @Router /items/{item_id} [post]
 func (ic *ItemClient) UseItemHandler(c echo.Context) error {
 	userID, ok := c.Get("userID").(string)
 	if !ok {

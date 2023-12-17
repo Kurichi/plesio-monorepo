@@ -7,10 +7,28 @@ require (
 	github.com/Kurichi/plesio-monorepo/services/item v0.0.0-20231216184001-6ff65ed7215e
 	github.com/Kurichi/plesio-monorepo/services/mission v0.0.0-20231216184001-6ff65ed7215e
 	github.com/Kurichi/plesio-monorepo/services/tree v0.0.0-20231216194845-32c83c6abc76
+	github.com/Kurichi/plesio-monorepo/services/user v0.0.0-20231216221441-de851dec42ad
 	github.com/google/wire v0.5.0
 	github.com/labstack/echo/v4 v4.11.3
+	github.com/swaggo/swag v1.16.2
 	google.golang.org/api v0.154.0
 	google.golang.org/grpc v1.60.0
+)
+
+require (
+	github.com/KyleBanks/depth v1.2.1 // indirect
+	github.com/ghodss/yaml v1.0.0 // indirect
+	github.com/go-openapi/jsonpointer v0.20.0 // indirect
+	github.com/go-openapi/jsonreference v0.20.2 // indirect
+	github.com/go-openapi/spec v0.20.11 // indirect
+	github.com/go-openapi/swag v0.22.4 // indirect
+	github.com/josharian/intern v1.0.0 // indirect
+	github.com/mailru/easyjson v0.7.7 // indirect
+	github.com/rogpeppe/go-internal v1.12.0 // indirect
+	github.com/swaggo/files/v2 v2.0.0 // indirect
+	golang.org/x/tools v0.16.1 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
 require (
@@ -36,6 +54,7 @@ require (
 	github.com/labstack/gommon v0.4.0 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
+	github.com/swaggo/echo-swagger v1.4.1
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	go.opencensus.io v0.24.0 // indirect
