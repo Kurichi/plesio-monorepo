@@ -21,7 +21,7 @@ class KiikutenThemeData {
   }
 
   Color _randomizeColor(Color baseColor) {
-    const range = 8;
+    const range = 12;
     Random random = Random();
     int r = baseColor.red + random.nextInt(range * 2) - range;
     int g = baseColor.green + random.nextInt(range * 2) - range;
