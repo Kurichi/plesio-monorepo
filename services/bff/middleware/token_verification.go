@@ -21,7 +21,6 @@ func NewAuthController(client *auth.Client) *AuthController {
 
 func (ac *AuthController) TokenVerificationMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		return next(c)
 		token := c.Request().Header.Get("Authorization")
 		if token == "" {
 			return c.JSON(http.StatusUnauthorized, "Required token")
