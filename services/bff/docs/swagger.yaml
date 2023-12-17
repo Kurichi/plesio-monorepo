@@ -19,6 +19,23 @@ definitions:
       quantity:
         type: integer
     type: object
+  mission.CreateMission:
+    properties:
+      amount:
+        type: integer
+      description:
+        type: string
+      rewards:
+        items:
+          $ref: '#/definitions/mission.Reward'
+        type: array
+      target:
+        type: string
+      term:
+        type: string
+      unit:
+        type: string
+    type: object
   mission.GetMissionsResponse:
     properties:
       missions:
@@ -43,13 +60,16 @@ definitions:
         type: string
       id:
         type: string
-      image:
-        type: string
       items:
         items:
           $ref: '#/definitions/mission.Item'
         type: array
-      name:
+    type: object
+  mission.Reward:
+    properties:
+      amount:
+        type: integer
+      item_id:
         type: string
     type: object
   tree.GetTreeRankingResponse:
@@ -273,6 +293,33 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Get Missions
+      tags:
+      - missions
+    post:
+      consumes:
+      - application/json
+      description: Create New Mission
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/mission.CreateMission'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Create Mission
       tags:
       - missions
   /missions/{mission_id}:

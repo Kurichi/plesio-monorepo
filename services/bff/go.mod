@@ -4,10 +4,10 @@ go 1.21.5
 
 require (
 	firebase.google.com/go/v4 v4.13.0
-	github.com/Kurichi/plesio-monorepo/services/item v0.0.0-20231216184001-6ff65ed7215e
-	github.com/Kurichi/plesio-monorepo/services/mission v0.0.0-20231216184001-6ff65ed7215e
-	github.com/Kurichi/plesio-monorepo/services/tree v0.0.0-20231216194845-32c83c6abc76
-	github.com/Kurichi/plesio-monorepo/services/user v0.0.0-20231216221441-de851dec42ad
+	github.com/Kurichi/plesio-monorepo/services/item v0.0.0-20231217031625-017ef779f686
+	github.com/Kurichi/plesio-monorepo/services/mission v0.0.0-20231217031625-017ef779f686
+	github.com/Kurichi/plesio-monorepo/services/tree v0.0.0-20231217031043-2742c5511558
+	github.com/Kurichi/plesio-monorepo/services/user v0.0.0-20231217031625-017ef779f686
 	github.com/google/wire v0.5.0
 	github.com/labstack/echo/v4 v4.11.3
 	github.com/swaggo/swag v1.16.2
@@ -48,7 +48,7 @@ require (
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/google/s2a-go v0.1.7 // indirect
-	github.com/google/uuid v1.4.0 // indirect
+	github.com/google/uuid v1.5.0 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.3.2 // indirect
 	github.com/googleapis/gax-go/v2 v2.12.0 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect

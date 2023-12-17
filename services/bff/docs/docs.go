@@ -264,6 +264,49 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Create New Mission",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "missions"
+                ],
+                "summary": "Create Mission",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/mission.CreateMission"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
             }
         },
         "/missions/{mission_id}": {
@@ -529,6 +572,32 @@ const docTemplate = `{
                 }
             }
         },
+        "mission.CreateMission": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "rewards": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/mission.Reward"
+                    }
+                },
+                "target": {
+                    "type": "string"
+                },
+                "term": {
+                    "type": "string"
+                },
+                "unit": {
+                    "type": "string"
+                }
+            }
+        },
         "mission.GetMissionsResponse": {
             "type": "object",
             "properties": {
@@ -566,16 +635,21 @@ const docTemplate = `{
                 "id": {
                     "type": "string"
                 },
-                "image": {
-                    "type": "string"
-                },
                 "items": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/mission.Item"
                     }
+                }
+            }
+        },
+        "mission.Reward": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "integer"
                 },
-                "name": {
+                "item_id": {
                     "type": "string"
                 }
             }
