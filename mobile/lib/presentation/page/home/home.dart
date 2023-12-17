@@ -57,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                   Text(FirebaseAuth.instance.currentUser!.email ?? 'null'),
                 ],
               ),
-              const KiikutenSeed(),
+              const KiikutenSeed(size: 160),
             ],
           ),
         ),
