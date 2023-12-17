@@ -14,12 +14,11 @@ import (
 	"github.com/Kurichi/plesio-monorepo/services/bff/middleware"
 	"github.com/Kurichi/plesio-monorepo/services/bff/pkg/firebase"
 	"github.com/labstack/echo/v4"
-	"google.golang.org/grpc"
 )
 
 // Injectors from wire.go:
 
-func New(clientConnInterface grpc.ClientConnInterface) *echo.Echo {
+func New() *echo.Echo {
 	treeServiceClient := NewTreeClient()
 	treeClient := tree.NewTreeClient(treeServiceClient)
 	userServiceClient := NewUserClient()

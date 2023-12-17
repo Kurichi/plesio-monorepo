@@ -11,10 +11,9 @@ import (
 	"github.com/Kurichi/plesio-monorepo/services/bff/pkg/firebase"
 	"github.com/google/wire"
 	"github.com/labstack/echo/v4"
-	"google.golang.org/grpc"
 )
 
-func New(grpc.ClientConnInterface) *echo.Echo {
+func New() *echo.Echo {
 	wire.Build(
 		// TreeClientの生成
 		tree.NewTreeClient,
