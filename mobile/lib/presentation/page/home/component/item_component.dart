@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Item extends StatelessWidget {
-  const Item({super.key});
+class ItemComponent extends StatelessWidget {
+  const ItemComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
