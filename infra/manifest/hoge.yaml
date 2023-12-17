@@ -22,6 +22,7 @@ spec:
         command:
           - "/cloud_sql_proxy"
           - "-instances=plesio-407208:asia-northeast1:keekten-db-prod=tcp:5432"
+          - "-credential_file=/var/secrets/google/key.json"
         securityContext:
           runAsNonRoot: true
         volumeMounts:
