@@ -15,7 +15,7 @@ type DB struct {
 }
 
 func New(cfg *config.DBConfig) *DB {
-	dsn := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable",
+	dsn := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=enable",
 		cfg.User, cfg.Password, cfg.Host, cfg.Port, cfg.DBName)
 	sqldb := sql.OpenDB(pgdriver.NewConnector(pgdriver.WithDSN(dsn)))
 	db := bun.NewDB(sqldb, pgdialect.New())
