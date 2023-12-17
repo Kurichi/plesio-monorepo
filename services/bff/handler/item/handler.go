@@ -89,3 +89,22 @@ func (ic *ItemClient) UseItemHandler(c echo.Context) error {
 	return c.JSON(http.StatusOK, nil)
 
 }
+
+// @Summary Create Item
+// @Description Create item
+// @Tags items
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param item body item.CreateItemRequest true "request param"
+// @Success 200 {object} interface{}
+// @Failure 500 {object} string
+// @Router /missions [post]
+func (ic *ItemClient) CreateItemHandler(c echo.Context) error {
+	item := CreateItemRequest{}
+	if err := c.Bind(&item); err != nil {
+		return err
+	}
+
+	return nil
+}

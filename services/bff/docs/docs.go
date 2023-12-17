@@ -284,8 +284,8 @@ const docTemplate = `{
                 "summary": "Create Mission",
                 "parameters": [
                     {
-                        "description": "body",
-                        "name": "body",
+                        "description": "request param",
+                        "name": "mission",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -541,6 +541,23 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "item.CreateItemRequest": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "target": {
+                    "type": "string"
+                }
+            }
+        },
         "item.GetItemsResponse": {
             "type": "object",
             "properties": {
