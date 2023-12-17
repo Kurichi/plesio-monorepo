@@ -35,7 +35,7 @@ class KiikutenSeed extends StatelessWidget {
           if (distance < center) {
             return const BrownDot();
           } else {
-            return Container(); // 何も描画しない
+            return Container();
           }
         },
       ),
