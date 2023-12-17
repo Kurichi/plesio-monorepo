@@ -5,6 +5,7 @@ import 'package:kiikuten/presentation/designsystem/component/kiikuten_avatar.dar
 import 'package:kiikuten/presentation/designsystem/component/tree/kiikuten_seed.dart';
 import 'package:kiikuten/presentation/designsystem/component/tree/kiikuten_tree.dart';
 import 'package:kiikuten/presentation/page/home/section/drawer.dart';
+import 'package:kiikuten/presentation/page/home/section/item_container.dart';
 import 'package:kiikuten/presentation/page/settings/settings_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -61,6 +62,10 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           SingleChildScrollView(
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).padding.top + 80,
+              bottom: MediaQuery.of(context).padding.bottom + 320,
+            ),
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
               child: Column(
@@ -84,6 +89,10 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
+          ),
+          const Align(
+            alignment: Alignment.bottomCenter,
+            child: ItemContainer(),
           ),
         ],
       ),
