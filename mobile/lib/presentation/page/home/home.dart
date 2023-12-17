@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kiikuten/presentation/designsystem/component/kiikuten_avatar.dart';
+import 'package:kiikuten/presentation/designsystem/component/tree/kiikuten_seed.dart';
 import 'package:kiikuten/presentation/page/home/section/drawer.dart';
 import 'package:kiikuten/presentation/page/settings/settings_screen.dart';
 
@@ -39,13 +40,26 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(
-        child: Row(
-          children: [
-            const Text('GitHub ID: '),
-            Text(FirebaseAuth.instance.currentUser!.displayName ?? 'null'),
-            Text(FirebaseAuth.instance.currentUser!.email ?? 'null'),
-          ],
+      body: SingleChildScrollView(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text('Mail: '),
+                  Text(FirebaseAuth.instance.currentUser!.email ?? 'null'),
+                ],
+              ),
+              const KiikutenSeed(),
+            ],
+          ),
         ),
       ),
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
